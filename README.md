@@ -1,5 +1,5 @@
 # Arkade kolliball 
-An arcade volleyball game made with [Phaser 3](https://phaser.io/phaser3) and [TypeScript]([https://www.typescriptlang.org/](https://www.typescriptlang.org/).
+An arcade volleyball game made with [Phaser 3](https://phaser.io/phaser3) and [TypeScript](https://www.typescriptlang.org/).
 
 <b>For local development:</b>
 1. Clone the repository
@@ -10,4 +10,4 @@ An arcade volleyball game made with [Phaser 3](https://phaser.io/phaser3) and [T
 
 TODO: decent documentation
 
-Kudos to [Yannick Deubel](https://github.com/yandeu) for the [project template]([https://github.com/yandeu/phaser-project-template](https://github.com/yandeu/phaser-project-template))! :clap:
+Kudos to [Yannick Deubel](https://github.com/yandeu) for the [project template](https://github.com/yandeu/phaser-project-template)! :clap:
