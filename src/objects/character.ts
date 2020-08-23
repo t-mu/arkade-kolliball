@@ -12,19 +12,15 @@ export default class Character extends Phaser.Physics.Arcade.Sprite {
   gravity: number;
   mass: number;
 
-  constructor(scene: Phaser.Scene, x: number, y: number, skin: string = 'shroom') {
+  constructor(scene: Phaser.Scene, x: number, y: number, skin: string = 'kolli-alternate') {
     super(scene, x, y, skin);
 
     scene.add.existing(this);
     scene.physics.add.existing(this);
     this.setCollideWorldBounds(true);
 
-    // TODO: should no longer be needed when creating correctly sized assets
-    this.scale = 0.2;
-
     this.body.setMass(DEFAULT_CHARACTER_MASS_MULTIPLIER);
     this.body.gravity.y = DEFAULT_CHARACTER_GRAVITY;
-    this.body.setCircle(250);
 
     this.horizontalVelocity = DEFAULT_CHARACTER_HORIZONTAL_VELOCITY;
     this.verticalVelocity = DEFAULT_CHARACTER_VERTICAL_VELOCITY;

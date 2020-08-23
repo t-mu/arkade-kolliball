@@ -4,6 +4,10 @@ import Player from '../objects/player';
 import Net from '../objects/net';
 import CpuPlayer from '../objects/CpuPlayer';
 
+const idleAnimationFrameConfig: Phaser.Types.Animations.GenerateFrameNumbers = {
+  frames: [5, 4, 3, 2, 1]
+};
+
 export default class MainScene extends Phaser.Scene {
   scoreText: Phaser.GameObjects.Text;
   scoreText2: Phaser.GameObjects.Text;
@@ -32,6 +36,10 @@ export default class MainScene extends Phaser.Scene {
 
     this.player1 = new Player(this, 100, 720);
     this.player2 = new CpuPlayer(this, 1180, 720);
+
+    this.createAnimations();
+    this.player1.play('kolli-idle');
+    this.player2.play('cpu-idle');
   }
 
   update = (): void => {
@@ -42,7 +50,6 @@ export default class MainScene extends Phaser.Scene {
     this.player2.update();
     this.updateScore();
     this.checkCollisions();
-
   }
 
   private checkCollisions = (): void => {
@@ -71,5 +78,26 @@ export default class MainScene extends Phaser.Scene {
     this.ball.y = 30;
     this.ball.setVelocityX(Math.random() > 0.5 ? 35 : -35);
     this.ball.setVelocityY(0);
+  }
+
+  private createAnimations = (): void => {
+    const playerIdle: Phaser.Types.Animations.Animation = {
+      key: 'kolli-idle',
+      frames: this.anims.generateFrameNumbers('kolli-idle', idleAnimationFrameConfig),
+      frameRate: 5,
+      yoyo: true,
+      repeat: -1
+    };
+
+    const cpuPlayerIdle: Phaser.Types.Animations.Animation = {
+      key: 'cpu-idle',
+      frames: this.anims.generateFrameNumbers('kolli-alternate-idle', idleAnimationFrameConfig),
+      frameRate: 5,
+      yoyo: true,
+      repeat: -1
+    };
+
+    this.anims.create(playerIdle);
+    this.anims.create(cpuPlayerIdle);
   }
 }

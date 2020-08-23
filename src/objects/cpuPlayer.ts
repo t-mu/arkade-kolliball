@@ -4,6 +4,8 @@ import MainScene from "../scenes/mainScene";
 export default class CpuPlayer extends Character {
   constructor(scene: Phaser.Scene | MainScene, x: number, y: number) {
     super(scene, x, y);
+    this.body.setCircle(50);
+    this.flipX = true;
   }
 
   update = (): void => {

@@ -13,10 +13,9 @@ export default class Ball extends Phaser.Physics.Arcade.Sprite {
     scene.add.existing(this);
     scene.physics.add.existing(this);
 
-    this.scale = 0.2;
     this.body.onCollide = true;
     this.body.setMass(0.75);
-    this.body.setCircle(207);
+    this.body.setCircle(50);
 
     this.initCollisionDetection();
     this.initClickDetection();
