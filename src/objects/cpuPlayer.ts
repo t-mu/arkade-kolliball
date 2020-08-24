@@ -1,15 +1,16 @@
-import Character from "./character"
+import Player from "./player"
 import MainScene from "../scenes/mainScene";
-import { CourtType } from "../types";
+import { CourtType, CharacterAnimations } from "../types";
 
-export default class CpuPlayer extends Character {
-  constructor(scene: Phaser.Scene | MainScene, x: number, y: number, court: CourtType) {
-    super(scene, x, y, 'kolli-cyan', court);
+export default class CpuPlayer extends Player {
+  constructor(scene: Phaser.Scene | MainScene, x: number, y: number, court: CourtType, animations?: CharacterAnimations) {
+    super(scene, x, y, 'kolli-cyan', court, animations);
     this.body.setCircle(50);
   }
 
   update = (): void => {
     this.handleMovement();
+    this.handlePlayerState();
   }
 
   private targetBall = (callBack: () => void): void => {

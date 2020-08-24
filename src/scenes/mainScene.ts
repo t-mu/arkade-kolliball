@@ -1,20 +1,27 @@
 import Ball from '../objects/ball';
 import ScoreText from '../objects/scoreText';
-import Player from '../objects/player';
+import HumanPlayer from '../objects/humanPlayer';
 import Net from '../objects/net';
 import CpuPlayer from '../objects/CpuPlayer';
+import { CharacterAnimations } from '../types';
 
-const idleAnimationFrameConfig: Phaser.Types.Animations.GenerateFrameNumbers = {
+const sharedFrameConfig: Phaser.Types.Animations.GenerateFrameNumbers = {
   frames: [5, 4, 3, 2, 1]
 };
+
+const sharedAnimationConfig: Phaser.Types.Animations.Animation = {
+  frameRate: 5,
+  yoyo: true,
+  repeat: -1
+}
 
 export default class MainScene extends Phaser.Scene {
   scoreText: Phaser.GameObjects.Text;
   scoreText2: Phaser.GameObjects.Text;
-  p1Score = 0;
-  p2Score = 0;
+  playerScore = 0;
+  cpuScore = 0;
   ball: Ball;
-  player: Player;
+  player: HumanPlayer;
   cpuPlayer: CpuPlayer;
   keys: Phaser.Types.Input.Keyboard.CursorKeys;
   net: Phaser.Physics.Arcade.Sprite;
@@ -34,18 +41,14 @@ export default class MainScene extends Phaser.Scene {
     this.scoreText2 = new ScoreText(this, 1270, 10);
     this.scoreText2.setOrigin(1, 0);
 
-    this.player = new Player(this, 100, 720, 'left');
-    this.cpuPlayer = new CpuPlayer(this, 1180, 720, 'right');
-
-    this.createAnimations();
-    this.player.play('kolli-idle');
-    this.cpuPlayer.play('cpu-idle');
+    this.player = new HumanPlayer(this, 100, 720, 'left', this.createPlayerAnimations());
+    this.cpuPlayer = new CpuPlayer(this, 1180, 720, 'right', this.createCpuAnimations());
   }
 
   update = (): void => {
     this.ball.update();
-    this.scoreText.update(this.p1Score);
-    this.scoreText2.update(this.p2Score);
+    this.scoreText.update(this.playerScore);
+    this.scoreText2.update(this.cpuScore);
     this.player.update();
     this.cpuPlayer.update();
     this.updateScore();
@@ -68,7 +71,7 @@ export default class MainScene extends Phaser.Scene {
     }
 
     const impactCoords = this.ball.body.x;
-    impactCoords > 640 ? this.p1Score++ : this.p2Score++;
+    impactCoords > 640 ? this.playerScore++ : this.cpuScore++;
 
     this.resetBall();
   }
@@ -80,24 +83,49 @@ export default class MainScene extends Phaser.Scene {
     this.ball.setVelocityY(0);
   }
 
-  private createAnimations = (): void => {
+  private createPlayerAnimations = (): CharacterAnimations => {
     const playerIdle: Phaser.Types.Animations.Animation = {
+      ...sharedAnimationConfig,
       key: 'kolli-idle',
-      frames: this.anims.generateFrameNumbers('kolli-idle-magenta', idleAnimationFrameConfig),
-      frameRate: 5,
-      yoyo: true,
-      repeat: -1
+      frames: this.anims.generateFrameNumbers('kolli-idle-magenta', sharedFrameConfig),
     };
 
-    const cpuPlayerIdle: Phaser.Types.Animations.Animation = {
-      key: 'cpu-idle',
-      frames: this.anims.generateFrameNumbers('kolli-idle-cyan', idleAnimationFrameConfig),
-      frameRate: 5,
-      yoyo: true,
-      repeat: -1
+    const playerJump: Phaser.Types.Animations.Animation = {
+      ...sharedAnimationConfig,
+      key: 'kolli-jump',
+      frames: this.anims.generateFrameNumbers('kolli-jump-magenta', sharedFrameConfig),
     };
 
     this.anims.create(playerIdle);
+    this.anims.create(playerJump);
+
+    return {
+      walk: 'kolli-walk',
+      idle: 'kolli-idle',
+      jump: 'kolli-jump',
+    };
+  }
+
+  private createCpuAnimations = (): CharacterAnimations => {
+    const cpuPlayerIdle: Phaser.Types.Animations.Animation = {
+      ...sharedAnimationConfig,
+      key: 'cpu-idle',
+      frames: this.anims.generateFrameNumbers('kolli-idle-cyan', sharedFrameConfig),
+    };
+
+    const cpuPlayerJump: Phaser.Types.Animations.Animation = {
+      ...sharedAnimationConfig,
+      key: 'cpu-jump',
+      frames: this.anims.generateFrameNumbers('kolli-jump-cyan', sharedFrameConfig),
+    };
+
     this.anims.create(cpuPlayerIdle);
+    this.anims.create(cpuPlayerJump);
+
+    return {
+      walk: 'cpu-walk',
+      idle: 'cpu-idle',
+      jump: 'cpu-jump',
+    };
   }
 }
