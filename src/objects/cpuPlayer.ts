@@ -1,11 +1,11 @@
 import Character from "./character"
 import MainScene from "../scenes/mainScene";
+import { CourtType } from "../types";
 
 export default class CpuPlayer extends Character {
-  constructor(scene: Phaser.Scene | MainScene, x: number, y: number) {
-    super(scene, x, y);
+  constructor(scene: Phaser.Scene | MainScene, x: number, y: number, court: CourtType) {
+    super(scene, x, y, 'kolli-cyan', court);
     this.body.setCircle(50);
-    this.flipX = true;
   }
 
   update = (): void => {

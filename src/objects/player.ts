@@ -1,13 +1,15 @@
 import MainScene from "../scenes/mainScene";
 import Character from "./character";
+import { CourtType } from "../types";
 
 export default class Player extends Character {
   controls: Phaser.Types.Input.Keyboard.CursorKeys;
 
-  constructor(scene: MainScene, x: number, y: number) {
-    super(scene, x, y, 'kolli-magenta');
+  constructor(scene: MainScene, x: number, y: number, court: CourtType) {
+    super(scene, x, y, 'kolli-magenta', court);
     this.controls = this.scene.input.keyboard.createCursorKeys();
     this.body.setCircle(50);
+    this.court = 'left';
   }
 
   public update = (): void => {

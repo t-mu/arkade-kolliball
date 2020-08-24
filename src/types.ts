@@ -1,0 +1,1 @@
+export type CourtType = 'left' | 'right';

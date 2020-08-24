@@ -14,8 +14,8 @@ export default class MainScene extends Phaser.Scene {
   p1Score = 0;
   p2Score = 0;
   ball: Ball;
-  player1: Player;
-  player2: CpuPlayer;
+  player: Player;
+  cpuPlayer: CpuPlayer;
   keys: Phaser.Types.Input.Keyboard.CursorKeys;
   net: Phaser.Physics.Arcade.Sprite;
 
@@ -34,30 +34,30 @@ export default class MainScene extends Phaser.Scene {
     this.scoreText2 = new ScoreText(this, 1270, 10);
     this.scoreText2.setOrigin(1, 0);
 
-    this.player1 = new Player(this, 100, 720);
-    this.player2 = new CpuPlayer(this, 1180, 720);
+    this.player = new Player(this, 100, 720, 'left');
+    this.cpuPlayer = new CpuPlayer(this, 1180, 720, 'right');
 
     this.createAnimations();
-    this.player1.play('kolli-idle');
-    this.player2.play('cpu-idle');
+    this.player.play('kolli-idle');
+    this.cpuPlayer.play('cpu-idle');
   }
 
   update = (): void => {
     this.ball.update();
     this.scoreText.update(this.p1Score);
     this.scoreText2.update(this.p2Score);
-    this.player1.update();
-    this.player2.update();
+    this.player.update();
+    this.cpuPlayer.update();
     this.updateScore();
     this.checkCollisions();
   }
 
   private checkCollisions = (): void => {
-    this.physics.collide(this.player1, this.ball, this.ball.adjustSpin);
-    this.physics.collide(this.player2, this.ball, this.ball.adjustSpin);
+    this.physics.collide(this.player, this.ball, this.ball.adjustSpin);
+    this.physics.collide(this.cpuPlayer, this.ball, this.ball.adjustSpin);
     this.physics.collide(this.net, this.ball);
-    this.physics.collide(this.net, this.player1);
-    this.physics.collide(this.net, this.player2);
+    this.physics.collide(this.net, this.player);
+    this.physics.collide(this.net, this.cpuPlayer);
   }
 
   private updateScore = (): void => {
