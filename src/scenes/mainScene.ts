@@ -83,7 +83,7 @@ export default class MainScene extends Phaser.Scene {
   private createAnimations = (): void => {
     const playerIdle: Phaser.Types.Animations.Animation = {
       key: 'kolli-idle',
-      frames: this.anims.generateFrameNumbers('kolli-idle', idleAnimationFrameConfig),
+      frames: this.anims.generateFrameNumbers('kolli-idle-magenta', idleAnimationFrameConfig),
       frameRate: 5,
       yoyo: true,
       repeat: -1
@@ -91,7 +91,7 @@ export default class MainScene extends Phaser.Scene {
 
     const cpuPlayerIdle: Phaser.Types.Animations.Animation = {
       key: 'cpu-idle',
-      frames: this.anims.generateFrameNumbers('kolli-alternate-idle', idleAnimationFrameConfig),
+      frames: this.anims.generateFrameNumbers('kolli-idle-cyan', idleAnimationFrameConfig),
       frameRate: 5,
       yoyo: true,
       repeat: -1

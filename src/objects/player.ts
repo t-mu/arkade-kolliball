@@ -5,7 +5,7 @@ export default class Player extends Character {
   controls: Phaser.Types.Input.Keyboard.CursorKeys;
 
   constructor(scene: MainScene, x: number, y: number) {
-    super(scene, x, y, 'kolli');
+    super(scene, x, y, 'kolli-magenta');
     this.controls = this.scene.input.keyboard.createCursorKeys();
     this.body.setCircle(50);
   }

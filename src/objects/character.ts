@@ -12,7 +12,7 @@ export default class Character extends Phaser.Physics.Arcade.Sprite {
   gravity: number;
   mass: number;
 
-  constructor(scene: Phaser.Scene, x: number, y: number, skin: string = 'kolli-alternate') {
+  constructor(scene: Phaser.Scene, x: number, y: number, skin: string = 'kolli-cyan') {
     super(scene, x, y, skin);
 
     scene.add.existing(this);

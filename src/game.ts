@@ -5,7 +5,7 @@ import PreloadScene from './scenes/preloadScene'
 export const DEFAULT_WIDTH = 1280
 export const DEFAULT_HEIGHT = 720
 
-const config: Phaser.Types.Core.GameConfig = {
+const config: Phaser.Types.Core.GameConfig & Phaser.Types.Core.RenderConfig = {
   type: Phaser.AUTO,
   backgroundColor: '#ffffff',
   scale: {
@@ -15,6 +15,7 @@ const config: Phaser.Types.Core.GameConfig = {
     width: DEFAULT_WIDTH,
     height: DEFAULT_HEIGHT
   },
+  pixelArt: true,
   scene: [PreloadScene, MainScene],
   physics: {
     default: 'arcade',

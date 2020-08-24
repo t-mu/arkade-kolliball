@@ -9,10 +9,10 @@ export default class PreloadScene extends Phaser.Scene {
   preload() {
     // IMAGES
     this.load.image('kolliball', 'assets/img/kolliball_100x100.png');
-    this.load.image('kolli', 'assets/img/kolli_100x100.png');
-    this.load.image('kolli-alternate', 'assets/img/kolli_alternate_100x100.png');
-    this.load.spritesheet('kolli-idle', 'assets/animations/kolli_idle.png', { frameWidth: 100, frameHeight: 100 });
-    this.load.spritesheet('kolli-alternate-idle', 'assets/animations/kolli_alternate_idle.png', { frameWidth: 100, frameHeight: 100 });
+    this.load.image('kolli-magenta', 'assets/img/kolli_magenta_100x100.png');
+    this.load.image('kolli-cyan', 'assets/img/kolli_cyan_100x100.png');
+    this.load.spritesheet('kolli-idle-magenta', 'assets/animations/kolli_idle_magenta.png', { frameWidth: 100, frameHeight: 100 });
+    this.load.spritesheet('kolli-idle-cyan', 'assets/animations/kolli_idle_cyan.png', { frameWidth: 100, frameHeight: 100 });
 
     // GRAPHICS
     // net texture
