@@ -10,6 +10,7 @@ export default class PreloadScene extends Phaser.Scene {
     this.load.image('kolliball', 'assets/img/kolliball_100x100.png');
     this.load.image('kolli-magenta', 'assets/img/kolli_magenta_100x100.png');
     this.load.image('kolli-cyan', 'assets/img/kolli_cyan_100x100.png');
+    this.load.image('net', 'assets/img/net.png');
 
     this.load.spritesheet('player-idle', 'assets/animations/kolli_idle_magenta.png', { frameWidth: 100, frameHeight: 100 });
     this.load.spritesheet('player-jump', 'assets/animations/kolli_jump_magenta.png', { frameWidth: 100, frameHeight: 100 });
@@ -17,16 +18,6 @@ export default class PreloadScene extends Phaser.Scene {
     this.load.spritesheet('cpu-idle', 'assets/animations/kolli_idle_cyan.png', { frameWidth: 100, frameHeight: 100 });
     this.load.spritesheet('cpu-jump', 'assets/animations/kolli_jump_cyan.png', { frameWidth: 100, frameHeight: 100 });
     this.load.spritesheet('cpu-walk', 'assets/animations/kolli_walk_cyan.png', { frameWidth: 100, frameHeight: 100 });
-
-    // GRAPHICS
-    // net texture
-    this.add.graphics({
-      fillStyle: {
-        color: 0x000000
-      }
-    })
-      .fillRect(0, 0, 20, 360)
-      .generateTexture('net', 20, 360);
 
     // FONTS
     try {
