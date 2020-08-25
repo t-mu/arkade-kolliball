@@ -2,7 +2,7 @@ import Ball from '../objects/ball';
 import ScoreText from '../objects/scoreText';
 import HumanPlayer from '../objects/humanPlayer';
 import Net from '../objects/net';
-import CpuPlayer from '../objects/CpuPlayer';
+import CpuPlayer from '../objects/cpuPlayer';
 import { CharacterAnimations } from '../types';
 
 const sharedFrameConfig: Phaser.Types.Animations.GenerateFrameNumbers = {

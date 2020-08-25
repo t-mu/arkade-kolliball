@@ -1,7 +1,8 @@
-const path = require('path')
-const CopyWebpackPlugin = require('copy-webpack-plugin')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const { InjectManifest } = require('workbox-webpack-plugin')
+const path = require('path');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { InjectManifest } = require('workbox-webpack-plugin');
+const PnpWebpackPlugin = require('pnp-webpack-plugin');
 
 module.exports = {
   entry: ['./src/game.ts', './webpack/credits.js'],
@@ -11,10 +12,22 @@ module.exports = {
     chunkFilename: '[name].chunk.js'
   },
   resolve: {
+    plugins: [
+      PnpWebpackPlugin,
+    ],
     extensions: ['.ts', '.tsx', '.js']
   },
+  resolveLoader: {
+    plugins: [
+      PnpWebpackPlugin.moduleLoader(module),
+    ]
+  },
   module: {
-    rules: [{ test: /\.tsx?$/, include: path.join(__dirname, '../src'), loader: 'ts-loader' }]
+    rules: [{ 
+      test: /\.tsx?$/, 
+      include: path.join(__dirname, '../src'), 
+      loader: require.resolve('ts-loader') 
+    }]
   },
   optimization: {
     splitChunks: {
