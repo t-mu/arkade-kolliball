@@ -41,8 +41,8 @@ export default class MainScene extends Phaser.Scene {
     this.scoreText2 = new ScoreText(this, 1270, 10);
     this.scoreText2.setOrigin(1, 0);
 
-    this.player = new HumanPlayer(this, 100, 720, 'left', this.createPlayerAnimations());
-    this.cpuPlayer = new CpuPlayer(this, 1180, 720, 'right', this.createCpuAnimations());
+    this.player = new HumanPlayer(this, 100, 720, 'left', this.createAnimations('player'));
+    this.cpuPlayer = new CpuPlayer(this, 1180, 720, 'right', this.createAnimations('cpu'));
   }
 
   update = (): void => {
@@ -83,49 +83,34 @@ export default class MainScene extends Phaser.Scene {
     this.ball.setVelocityY(0);
   }
 
-  private createPlayerAnimations = (): CharacterAnimations => {
-    const playerIdle: Phaser.Types.Animations.Animation = {
+  private createAnimations = (prefix: string): CharacterAnimations => {
+    const walk: Phaser.Types.Animations.Animation = {
       ...sharedAnimationConfig,
-      key: 'kolli-idle',
-      frames: this.anims.generateFrameNumbers('kolli-idle-magenta', sharedFrameConfig),
+      key: `${prefix}-walk`,
+      frames: this.anims.generateFrameNumbers(`${prefix}-walk`, sharedFrameConfig),
+      frameRate: 12,
     };
 
-    const playerJump: Phaser.Types.Animations.Animation = {
+    const idle: Phaser.Types.Animations.Animation = {
       ...sharedAnimationConfig,
-      key: 'kolli-jump',
-      frames: this.anims.generateFrameNumbers('kolli-jump-magenta', sharedFrameConfig),
+      key: `${prefix}-idle`,
+      frames: this.anims.generateFrameNumbers(`${prefix}-idle`, sharedFrameConfig),
     };
 
-    this.anims.create(playerIdle);
-    this.anims.create(playerJump);
+    const jump: Phaser.Types.Animations.Animation = {
+      ...sharedAnimationConfig,
+      key: `${prefix}-jump`,
+      frames: this.anims.generateFrameNumbers(`${prefix}-jump`, sharedFrameConfig),
+    };
+
+    this.anims.create(walk);
+    this.anims.create(idle);
+    this.anims.create(jump);
 
     return {
-      walk: 'kolli-walk',
-      idle: 'kolli-idle',
-      jump: 'kolli-jump',
-    };
-  }
-
-  private createCpuAnimations = (): CharacterAnimations => {
-    const cpuPlayerIdle: Phaser.Types.Animations.Animation = {
-      ...sharedAnimationConfig,
-      key: 'cpu-idle',
-      frames: this.anims.generateFrameNumbers('kolli-idle-cyan', sharedFrameConfig),
-    };
-
-    const cpuPlayerJump: Phaser.Types.Animations.Animation = {
-      ...sharedAnimationConfig,
-      key: 'cpu-jump',
-      frames: this.anims.generateFrameNumbers('kolli-jump-cyan', sharedFrameConfig),
-    };
-
-    this.anims.create(cpuPlayerIdle);
-    this.anims.create(cpuPlayerJump);
-
-    return {
-      walk: 'cpu-walk',
-      idle: 'cpu-idle',
-      jump: 'cpu-jump',
+      walk: `${prefix}-walk`,
+      idle: `${prefix}-idle`,
+      jump: `${prefix}-jump`,
     };
   }
 }

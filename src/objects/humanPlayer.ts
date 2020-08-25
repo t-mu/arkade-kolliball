@@ -5,7 +5,7 @@ import { CourtType, CharacterAnimations } from "../types";
 export default class HumanPlayer extends Player {
   controls: Phaser.Types.Input.Keyboard.CursorKeys;
 
-  constructor(scene: MainScene, x: number, y: number, court: CourtType, animations?: CharacterAnimations) {
+  constructor(scene: MainScene, x: number, y: number, court: CourtType, animations: CharacterAnimations) {
     super(scene, x, y, 'kolli-magenta', court, animations);
     this.controls = this.scene.input.keyboard.createCursorKeys();
     this.body.setCircle(50);
@@ -13,7 +13,7 @@ export default class HumanPlayer extends Player {
 
   public update = (): void => {
     this.handleKeyboardMovement();
-    this.handlePlayerState();
+    this.checkState();
   }
 
   private handleKeyboardMovement = (): void => {

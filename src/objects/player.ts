@@ -25,7 +25,6 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
   constructor(scene: Phaser.Scene, x: number, y: number, skin: string, court: CourtType, animations?: CharacterAnimations) {
     super(scene, x, y, skin);
-
     this.court = court;
     this.animations = animations ?? { walk: '', idle: '', jump: '' };
 
@@ -42,24 +41,38 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     if (court === 'right') {
       this.flipX = true;
     }
-
-    this.anims.play(this.animations.idle);
   }
 
   protected isAirborne = (): boolean => this.body.y + this.body.height < ARENA_HEIGHT;
   protected isGrounded = (): boolean => this.body.y + this.body.height === ARENA_HEIGHT;
+  protected isWalking = (): boolean => this.isGrounded() && this.body.velocity.x !== 0;
 
   protected moveLeft = (): void => {
+    if (this.state !== PlayerState.WALKING && this.isGrounded()) {
+      this.setPlayerState(PlayerState.WALKING);
+      this.anims.play(this.animations.walk);
+    }
+
     this.setVelocityX(-this.horizontalVelocity);
     this.flipX = true;
   }
 
   protected moveRight = (): void => {
+    if (this.state !== PlayerState.WALKING && this.isGrounded()) {
+      this.setPlayerState(PlayerState.WALKING);
+      this.anims.play(this.animations.walk);
+    }
+
     this.setVelocityX(this.horizontalVelocity);
     this.flipX = false;
   }
 
   protected jump = (): void => {
+    if (this.state !== PlayerState.JUMPING) {
+      this.setPlayerState(PlayerState.JUMPING);
+      this.anims.play(this.animations.jump);
+    }
+
     if (this.isGrounded()) {
       this.setVelocityY(-this.verticalVelocity);
     }
@@ -69,15 +82,22 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     this.setVelocityX(0);
   }
 
-  protected handlePlayerState = (): void => {
-    // TODO: Decent logic to toggle between states and play animations
-    if (this.state !== PlayerState.JUMPING && this.isAirborne()) {
-      this.state = PlayerState.JUMPING;
-      this.anims.play(this.animations.jump);
-    }
-    else if (this.state !== PlayerState.IDLE && this.isGrounded()) {
-      this.state = PlayerState.IDLE;
+  // helper to handle some states / animation transitions
+  // TODO: come up with a better solution for state and animations
+  protected checkState = (): void => {
+    // check for idle state  
+    if (this.state !== PlayerState.IDLE && !this.isWalking() && !this.isAirborne()) {
+      this.setPlayerState(PlayerState.IDLE);
       this.anims.play(this.animations.idle);
     }
+    // check if the player is on the ground after jump and moving
+    if (this.state !== PlayerState.WALKING && this.isWalking()) {
+      this.setPlayerState(PlayerState.WALKING);
+      this.anims.play(this.animations.walk);
+    }
+  }
+
+  private setPlayerState = (state: PlayerState): void => {
+    this.state = state;
   }
 }

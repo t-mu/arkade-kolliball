@@ -3,14 +3,14 @@ import MainScene from "../scenes/mainScene";
 import { CourtType, CharacterAnimations } from "../types";
 
 export default class CpuPlayer extends Player {
-  constructor(scene: Phaser.Scene | MainScene, x: number, y: number, court: CourtType, animations?: CharacterAnimations) {
+  constructor(scene: Phaser.Scene | MainScene, x: number, y: number, court: CourtType, animations: CharacterAnimations) {
     super(scene, x, y, 'kolli-cyan', court, animations);
     this.body.setCircle(50);
   }
 
   update = (): void => {
     this.handleMovement();
-    this.handlePlayerState();
+    this.checkState();
   }
 
   private targetBall = (callBack: () => void): void => {

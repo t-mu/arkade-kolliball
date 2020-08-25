@@ -1,4 +1,3 @@
-import { Input } from "phaser";
 import MainScene from "../scenes/mainScene";
 
 const velocityMultiplier = 20;
@@ -50,7 +49,7 @@ export default class Ball extends Phaser.Physics.Arcade.Sprite {
 
   private initClickDetection = (): void => {
     this.setInteractive()
-      .on('pointerdown', ({ x, y }: Input.Pointer) => {
+      .on('pointerdown', ({ x, y }: Phaser.Input.Pointer) => {
         const pointerCoords = { x, y };
         const logoCoords = { x: this.x, y: this.y };
         const horizontalVelocity = (logoCoords.x - pointerCoords.x) * velocityMultiplier;
