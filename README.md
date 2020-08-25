@@ -2,7 +2,7 @@
 An arcade volleyball game made with [Phaser 3](https://phaser.io/phaser3) and [TypeScript](https://www.typescriptlang.org/).
 
 <b>For local development:</b>
-1. Clone the repository
+1. Clone the repository `git clone https://github.com/t-mu/arkade-kolliball.git`
 2. Run `npm install` or `yarn install`
 3. Start the local development server with `npm start` or `yarn start`
 4. Point your browser to `localhost:8080`
