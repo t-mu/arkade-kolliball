@@ -5,15 +5,6 @@ import Net from '../objects/net';
 import CpuPlayer from '../objects/cpuPlayer';
 import { CharacterAnimations } from '../types';
 
-const sharedFrameOrder: Phaser.Types.Animations.GenerateFrameNumbers = {
-  frames: [5, 4, 3, 2, 1]
-};
-
-const sharedAnimationConfig: Phaser.Types.Animations.Animation = {
-  yoyo: true,
-  repeat: -1
-}
-
 enum CharacterAnimationType {
   WALK = 'walk',
   IDLE = 'idle',
@@ -105,9 +96,12 @@ export default class MainScene extends Phaser.Scene {
       const animationKey: string = `${characterPrefix}-${animationName}`;
       
       this.anims.create({
-        ...sharedAnimationConfig,
         key: animationKey,
-        frames: this.anims.generateFrameNumbers(animationKey, sharedFrameOrder),
+        yoyo: true,
+        repeat: -1,
+        frames: this.anims.generateFrameNumbers(animationKey, {
+          frames: [5, 4, 3, 2, 1]
+        }),
         frameRate: animationName === CharacterAnimationType.WALK ? 10 : 5,
       });
 
