@@ -10,7 +10,6 @@ const sharedFrameOrder: Phaser.Types.Animations.GenerateFrameNumbers = {
 };
 
 const sharedAnimationConfig: Phaser.Types.Animations.Animation = {
-  frameRate: 6,
   yoyo: true,
   repeat: -1
 }
