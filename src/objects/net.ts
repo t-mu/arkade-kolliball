@@ -6,8 +6,6 @@ export default class Net extends Phaser.Physics.Arcade.Sprite {
 
     this.scene.add.existing(this);
     this.scene.physics.add.staticGroup([this]);
-
-    (0.5);
     this.body.immovable = true;
   }
 }
