@@ -1,9 +1,9 @@
 import MainScene from "../scenes/mainScene"
 
 const scoreTextConfig: Phaser.Types.GameObjects.Text.TextStyle = {
-  color: 'black',
+  color: '#ffffff',
   fontFamily: '"Press Start 2P"',
-  fontSize: '46px'
+  fontSize: '38px'
 };
 
 export default class ScoreText extends Phaser.GameObjects.Text {

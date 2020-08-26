@@ -37,6 +37,9 @@ export default class MainScene extends Phaser.Scene {
   }
 
   create = (): void => {
+    const bg = this.add.image(640, 360, 'background').setOrigin(0.5, 0.5);
+    bg.scale = 4;
+
     this.ball = new Ball(this, 640, 0);
     this.net = new Net(this, 640, 540);
 
