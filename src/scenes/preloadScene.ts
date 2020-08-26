@@ -1,4 +1,5 @@
 import WebFontFile from "../util/webFontLoader";
+import { ARENA_HEIGHT, ARENA_WIDTH } from '../constants';
 
 export default class PreloadScene extends Phaser.Scene {
   constructor() {
@@ -6,12 +7,17 @@ export default class PreloadScene extends Phaser.Scene {
   }
 
   preload() {
+    this.cameras.main.setBackgroundColor(0x000000);
+    
+    this.showLoadingText();
+
     // IMAGES
+    // static
     this.load.image('kolliball', 'assets/img/kolliball_100x100.png');
     this.load.image('kolli-magenta', 'assets/img/kolli_magenta_100x100.png');
     this.load.image('kolli-cyan', 'assets/img/kolli_cyan_100x100.png');
     this.load.image('net', 'assets/img/net.png');
-
+    // animations
     this.load.spritesheet('player-idle', 'assets/animations/kolli_idle_magenta.png', { frameWidth: 100, frameHeight: 100 });
     this.load.spritesheet('player-jump', 'assets/animations/kolli_jump_magenta.png', { frameWidth: 100, frameHeight: 100 });
     this.load.spritesheet('player-walk', 'assets/animations/kolli_walk_magenta.png', { frameWidth: 100, frameHeight: 100 });
@@ -46,5 +52,33 @@ export default class PreloadScene extends Phaser.Scene {
     //     this.scene.add('MainScene', mainScene.default, true)
     //   })
     // else console.log('The mainScene class will not even be loaded by the browser')
+  }
+
+  private showLoadingText = (): void => {
+    const loadingText = this.make.text({
+      x: ARENA_WIDTH / 2,
+      y: ARENA_HEIGHT / 2,
+      text: 'Loading',
+      style: {
+        font: '56px monospace',
+        fill: '#ffffff',
+      }
+    });
+
+    loadingText.setOrigin(0.5, 0.5);
+    
+    let loadingBallAmount = 0;
+    const loadingInterval = setInterval(() => {
+      loadingBallAmount += 1;
+      loadingText.text = `Loading${'.'.repeat(loadingBallAmount)}`;
+      
+      if (loadingBallAmount >= 3) {
+        loadingBallAmount = 0;
+      }
+    }, 500);
+
+    this.load.on('complete', () => {
+      clearInterval(loadingInterval);
+    });
   }
 }
