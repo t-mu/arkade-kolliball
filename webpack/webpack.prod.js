@@ -20,7 +20,7 @@ const prod = {
     }
   },
   plugins: [
-    new CleanWebpackPlugin({ cleanOnceBeforeBuildPatterns: [path.resolve(__dirname, '../dist/*.js')] }),
+    new CleanWebpackPlugin({ cleanOnceBeforeBuildPatterns: [path.resolve(__dirname, '../docs/*.js')] }),
     new JavaScriptObfuscator(
       {
         rotateStringArray: true,

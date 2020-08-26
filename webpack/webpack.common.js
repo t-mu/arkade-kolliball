@@ -7,7 +7,7 @@ const PnpWebpackPlugin = require('pnp-webpack-plugin');
 module.exports = {
   entry: ['./src/game.ts', './webpack/credits.js'],
   output: {
-    path: path.resolve(__dirname, '../dist'),
+    path: path.resolve(__dirname, '../docs'),
     filename: '[name].bundle.js',
     chunkFilename: '[name].chunk.js'
   },
