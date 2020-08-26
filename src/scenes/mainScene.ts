@@ -5,7 +5,7 @@ import Net from '../objects/net';
 import CpuPlayer from '../objects/cpuPlayer';
 import { CharacterAnimations } from '../types';
 
-const sharedFrameConfig: Phaser.Types.Animations.GenerateFrameNumbers = {
+const sharedFrameOrder: Phaser.Types.Animations.GenerateFrameNumbers = {
   frames: [5, 4, 3, 2, 1]
 };
 
@@ -13,6 +13,12 @@ const sharedAnimationConfig: Phaser.Types.Animations.Animation = {
   frameRate: 6,
   yoyo: true,
   repeat: -1
+}
+
+enum CharacterAnimationType {
+  WALK = 'walk',
+  IDLE = 'idle',
+  JUMP = 'jump',
 }
 
 export default class MainScene extends Phaser.Scene {
@@ -41,8 +47,8 @@ export default class MainScene extends Phaser.Scene {
     this.scoreText2 = new ScoreText(this, 1270, 10);
     this.scoreText2.setOrigin(1, 0);
 
-    this.player = new HumanPlayer(this, 100, 720, 'left', this.createAnimations('player'));
-    this.cpuPlayer = new CpuPlayer(this, 1180, 720, 'right', this.createAnimations('cpu'));
+    this.player = new HumanPlayer(this, 100, 720, 'left', this.createCharacterAnimations('player'));
+    this.cpuPlayer = new CpuPlayer(this, 1180, 720, 'right', this.createCharacterAnimations('cpu'));
   }
 
   update = (): void => {
@@ -83,34 +89,28 @@ export default class MainScene extends Phaser.Scene {
     this.ball.setVelocityY(0);
   }
 
-  private createAnimations = (prefix: string): CharacterAnimations => {
-    const walk: Phaser.Types.Animations.Animation = {
-      ...sharedAnimationConfig,
-      key: `${prefix}-walk`,
-      frames: this.anims.generateFrameNumbers(`${prefix}-walk`, sharedFrameConfig),
-      frameRate: 12,
+  // TODO: rework this later
+  private createCharacterAnimations = (characterPrefix: string): CharacterAnimations => {
+    let characterAnimations: CharacterAnimations = {
+      walk: '',
+      idle: '',
+      jump: '',
     };
 
-    const idle: Phaser.Types.Animations.Animation = {
-      ...sharedAnimationConfig,
-      key: `${prefix}-idle`,
-      frames: this.anims.generateFrameNumbers(`${prefix}-idle`, sharedFrameConfig),
-    };
+    for (let animationType in CharacterAnimationType) {
+      const animationName: string = CharacterAnimationType[animationType];
+      const animationKey: string = `${characterPrefix}-${animationName}`;
+      
+      this.anims.create({
+        ...sharedAnimationConfig,
+        key: animationKey,
+        frames: this.anims.generateFrameNumbers(animationKey, sharedFrameOrder),
+        frameRate: animationName === CharacterAnimationType.WALK ? 10 : 5,
+      });
 
-    const jump: Phaser.Types.Animations.Animation = {
-      ...sharedAnimationConfig,
-      key: `${prefix}-jump`,
-      frames: this.anims.generateFrameNumbers(`${prefix}-jump`, sharedFrameConfig),
-    };
-
-    this.anims.create(walk);
-    this.anims.create(idle);
-    this.anims.create(jump);
-
-    return {
-      walk: `${prefix}-walk`,
-      idle: `${prefix}-idle`,
-      jump: `${prefix}-jump`,
-    };
+      characterAnimations[animationName] = animationKey;
+    }
+    
+    return characterAnimations;
   }
 }
