@@ -44,36 +44,8 @@ export default class MainScene extends Phaser.Scene {
     this.player = new HumanPlayer(this, 100, 720, 'left', this.createCharacterAnimations('player'));
     this.cpuPlayer = new CpuPlayer(this, 1180, 720, 'right', this.createCharacterAnimations('cpu'));
 
-
     if (!this.game.device.os.desktop) {
-      const leftArrow = this.add.image(20, 700, 'mobile-arrow').setOrigin(0, 1);
-      const rightArrow = this.add.image(1260, 700, 'mobile-arrow').setOrigin(1, 1);
-      const jump = this.add.image(640, 700, 'mobile-space').setOrigin(0.5, 1);
-
-      [leftArrow, rightArrow, jump].forEach((btn) => {
-        btn.setInteractive();
-        btn.scale = 3;
-      })
-
-      leftArrow.flipX = true;
-
-      leftArrow.on('pointerdown', () => {
-        this.player.moveLeft();
-      });
-      leftArrow.on('pointerup', () => {
-        this.player.stopHorizontalMovement();
-      });
-
-      rightArrow.on('pointerdown', () => {
-        this.player.moveRight();
-      });
-      rightArrow.on('pointerup', () => {
-        this.player.stopHorizontalMovement();
-      });
-
-      jump.on('pointerdown', () => {
-        this.player.jump();
-      });
+      this.initMobileControls();
     }
   }
 
@@ -141,5 +113,36 @@ export default class MainScene extends Phaser.Scene {
     }
     
     return characterAnimations;
+  }
+
+  private initMobileControls = (): void => {
+    const leftArrow = this.add.image(20, 700, 'mobile-arrow').setOrigin(0, 1);
+    const rightArrow = this.add.image(1260, 700, 'mobile-arrow').setOrigin(1, 1);
+    const jump = this.add.image(640, 700, 'mobile-space').setOrigin(0.5, 1);
+
+    [leftArrow, rightArrow, jump].forEach((btn) => {
+      btn.setInteractive();
+      btn.scale = 3;
+    })
+
+    leftArrow.flipX = true;
+
+    leftArrow.on('pointerdown', () => {
+      this.player.moveLeft();
+    });
+    leftArrow.on('pointerup', () => {
+      this.player.stopHorizontalMovement();
+    });
+
+    rightArrow.on('pointerdown', () => {
+      this.player.moveRight();
+    });
+    rightArrow.on('pointerup', () => {
+      this.player.stopHorizontalMovement();
+    });
+
+    jump.on('pointerdown', () => {
+      this.player.jump();
+    });
   }
 }

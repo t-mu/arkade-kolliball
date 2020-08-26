@@ -21,7 +21,6 @@ export default class PreloadScene extends Phaser.Scene {
 
     // mobile only
     if (!this.game.device.os.desktop) {
-      console.log("Loading mobile assets...");
       this.load.image('mobile-arrow', 'assets/img/mobile_arrow.png');
       this.load.image('mobile-space', 'assets/img/mobile_space.png');
     }
@@ -36,7 +35,6 @@ export default class PreloadScene extends Phaser.Scene {
 
     // FONTS
     try {
-      console.log("Preloading fonts...");
       this.load.addFile(new WebFontFile(this.load, ['Press Start 2P']));
     }
     catch (e) {
