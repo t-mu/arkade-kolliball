@@ -41,8 +41,9 @@ export default class MainScene extends Phaser.Scene {
     bg.scale = 4;
 
     this.ball = new Ball(this, 640, 0);
-    this.net = new Net(this, 640, 540);
+    this.resetBall();
 
+    this.net = new Net(this, 640, 540);
     this.net.setDebugBodyColor(0x000000);
     this.net.debugShowBody = true;
 
