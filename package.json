@@ -5,10 +5,10 @@
   "homepage": "",
   "main": "index.js",
   "scripts": {
-    "start": "yarn webpack-dev-server --config webpack/webpack.dev.js",
-    "build": "yarn webpack --config webpack/webpack.prod.js",
+    "start": "webpack-dev-server --config webpack/webpack.dev.js",
+    "build": "webpack --config webpack/webpack.prod.js",
     "bundle": "yarn run build",
-    "serve": "yarn serve dist"
+    "serve": "serve dist"
   },
   "keywords": [
     "Phaser",
