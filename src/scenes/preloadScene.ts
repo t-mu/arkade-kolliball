@@ -19,6 +19,13 @@ export default class PreloadScene extends Phaser.Scene {
     this.load.image('net', 'assets/img/net.png');
     this.load.image('background', 'assets/img/bg_rising_sun.png');
 
+    // mobile only
+    if (!this.game.device.os.desktop) {
+      console.log("Loading mobile assets...");
+      this.load.image('mobile-arrow', 'assets/img/mobile_arrow.png');
+      this.load.image('mobile-space', 'assets/img/mobile_space.png');
+    }
+
     // animations
     this.load.spritesheet('player-idle', 'assets/animations/kolli_idle_magenta.png', { frameWidth: 100, frameHeight: 100 });
     this.load.spritesheet('player-jump', 'assets/animations/kolli_jump_magenta.png', { frameWidth: 100, frameHeight: 100 });

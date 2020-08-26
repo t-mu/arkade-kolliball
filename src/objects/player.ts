@@ -43,11 +43,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     }
   }
 
-  protected isAirborne = (): boolean => this.body.y + this.body.height < ARENA_HEIGHT;
-  protected isGrounded = (): boolean => this.body.y + this.body.height === ARENA_HEIGHT;
-  protected isWalking = (): boolean => this.isGrounded() && this.body.velocity.x !== 0;
-
-  protected moveLeft = (): void => {
+  public moveLeft = (): void => {
     if (this.state !== PlayerState.WALKING && this.isGrounded()) {
       this.setPlayerState(PlayerState.WALKING);
       this.anims.play(this.animations.walk);
@@ -57,7 +53,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     this.flipX = true;
   }
 
-  protected moveRight = (): void => {
+  public moveRight = (): void => {
     if (this.state !== PlayerState.WALKING && this.isGrounded()) {
       this.setPlayerState(PlayerState.WALKING);
       this.anims.play(this.animations.walk);
@@ -67,7 +63,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     this.flipX = false;
   }
 
-  protected jump = (): void => {
+  public jump = (): void => {
     if (this.state !== PlayerState.JUMPING) {
       this.setPlayerState(PlayerState.JUMPING);
       this.anims.play(this.animations.jump);
@@ -78,9 +74,13 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     }
   }
 
-  protected stopHorizontalMovement = (): void => {
+  public stopHorizontalMovement = (): void => {
     this.setVelocityX(0);
   }
+
+  protected isAirborne = (): boolean => this.body.y + this.body.height < ARENA_HEIGHT;
+  protected isGrounded = (): boolean => this.body.y + this.body.height === ARENA_HEIGHT;
+  protected isWalking = (): boolean => this.isGrounded() && this.body.velocity.x !== 0;
 
   // helper to handle some states / animation transitions
   // TODO: come up with a better solution for state and animations
