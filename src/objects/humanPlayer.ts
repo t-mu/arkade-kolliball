@@ -12,7 +12,7 @@ export default class HumanPlayer extends Player {
     this.body.setCircle(50);
 
     if (!this.scene.game.device.os.desktop) {
-      this.initMobileMovementHandling();
+      this.handleTouchMovement();
     }
   }
 
@@ -27,6 +27,7 @@ export default class HumanPlayer extends Player {
     left?.on('down', () => {
       this.moveLeft();
     });
+
     left?.on('up', () => {
       if (!right?.isDown) {
         this.stopHorizontalMovement();
@@ -36,6 +37,7 @@ export default class HumanPlayer extends Player {
     right?.on('down', () => {
       this.moveRight();
     });
+
     right?.on('up', () => {
       if (!left?.isDown) {
         this.stopHorizontalMovement();
@@ -45,27 +47,28 @@ export default class HumanPlayer extends Player {
     up?.on('down', () => {
       this.jump();
     });
+
     space?.on('down', () => {
       this.jump();
     });
   }
 
-  private initMobileMovementHandling = (): void => {
+  private handleTouchMovement = (): void => {
     this.scene.input.addPointer(2);
     const { pointer1, pointer2 } = this.scene.input;
 
     this.scene.input.on('pointerdown', () => {
       if (pointer2.isDown) {
-        this.jump();        
+        this.stopHorizontalMovement();
       }
-      else {
-        pointer1.downX > ARENA_WIDTH / 2 ? this.moveRight() : this.moveLeft();
-      }
+      pointer1.downX > ARENA_WIDTH / 2 ? this.moveRight() : this.moveLeft();
     });
 
-    this.scene.input.on('pointerup', () => {
-      if (!pointer2.isDown) {
-        this.stopHorizontalMovement();
+    this
+
+    this.scene.input.on('pointermove', ({ position, prevPosition }) => {
+      if (prevPosition.y - position.y > 30) {
+        this.jump();
       }
     });
   }
