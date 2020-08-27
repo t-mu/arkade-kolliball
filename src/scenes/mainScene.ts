@@ -21,6 +21,9 @@ export default class MainScene extends Phaser.Scene {
   cpuPlayer: CpuPlayer;
   keys: Phaser.Types.Input.Keyboard.CursorKeys;
   net: Phaser.Physics.Arcade.Sprite;
+  // TODO: fix types after intellisense works with yarn 2
+  music: any; 
+  musicControls: any;
 
   constructor() {
     super({ key: 'MainScene' })
@@ -47,6 +50,7 @@ export default class MainScene extends Phaser.Scene {
     if (!this.game.device.os.desktop) {
       this.initMobileControls();
     }
+    this.initializeMusic();
   }
 
   update = (): void => {
@@ -57,6 +61,11 @@ export default class MainScene extends Phaser.Scene {
     this.cpuPlayer.update();
     this.updateScore();
     this.checkCollisions();
+  }
+
+  public toggleMusic = (): void => {
+    this.musicControls.setTexture(this.music.isPlaying ? 'music-off' : 'music-on');
+    this.music.isPlaying ? this.music.pause() : this.music.resume();
   }
 
   private checkCollisions = (): void => {
@@ -144,5 +153,25 @@ export default class MainScene extends Phaser.Scene {
     jump.on('pointerdown', () => {
       this.player.jump();
     });
+  }
+
+  private initializeMusic = (): void => {
+    this.musicControls = this.add.image(1260, 60, 'music-on').setOrigin(1, 0);
+    this.musicControls.setInteractive();
+    this.musicControls.scale = 4;
+    this.musicControls.on('pointerdown', () => {
+      this.toggleMusic();
+    })
+
+    this.music = this.sound.add('music', {
+      mute: false,
+      volume: 1,
+      rate: 1,
+      detune: 0,
+      seek: 0,
+      loop: true,
+      delay: 0
+    });
+    this.music.play();
   }
 }

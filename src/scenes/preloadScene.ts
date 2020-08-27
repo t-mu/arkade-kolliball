@@ -18,6 +18,8 @@ export default class PreloadScene extends Phaser.Scene {
     this.load.image('kolli-cyan', 'assets/img/kolli_cyan_100x100.png');
     this.load.image('net', 'assets/img/net.png');
     this.load.image('background', 'assets/img/bg_rising_sun.png');
+    this.load.image('music-on', 'assets/img/music_on.png');
+    this.load.image('music-off', 'assets/img/music_off.png');
 
     // mobile only
     if (!this.game.device.os.desktop) {
@@ -40,6 +42,9 @@ export default class PreloadScene extends Phaser.Scene {
     catch (e) {
       console.log("Error fetching fonts:", e);
     }
+
+    // AUDIO
+    this.load.audio('music', ['assets/music/valley_of_the_endless_sun.ogg', 'assets/music/valley_of_the_endless_sun.ogg']);
 
   }
 
