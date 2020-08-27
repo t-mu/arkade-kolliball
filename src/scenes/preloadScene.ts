@@ -44,7 +44,7 @@ export default class PreloadScene extends Phaser.Scene {
     }
 
     // AUDIO
-    this.load.audio('music', ['assets/music/valley_of_the_endless_sun.ogg', 'assets/music/valley_of_the_endless_sun.ogg']);
+    this.load.audio('music', ['assets/music/valley_of_the_endless_sun.ogg', 'assets/music/valley_of_the_endless_sun.mp3']);
 
   }
 
