@@ -64,7 +64,11 @@ export default class HumanPlayer extends Player {
       pointer1.downX > ARENA_WIDTH / 2 ? this.moveRight() : this.moveLeft();
     });
 
-    this
+    this.scene.input.on('pointerup', () => {
+      if (!pointer2.isDown) {
+        this.stopHorizontalMovement();
+      }
+    });
 
     this.scene.input.on('pointermove', ({ position, prevPosition }) => {
       if (prevPosition.y - position.y > 30) {
