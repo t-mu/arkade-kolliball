@@ -1,14 +1,9 @@
 import MainScene from "../scenes/mainScene"
-
-const scoreTextConfig: Phaser.Types.GameObjects.Text.TextStyle = {
-  color: '#ffffff',
-  fontFamily: '"Press Start 2P"',
-  fontSize: '38px'
-};
+import { textBaseConfig } from "../utils/typography";
 
 export default class ScoreText extends Phaser.GameObjects.Text {
   constructor(scene: MainScene, x: number, y: number) {
-    super(scene, x, y, 'Score: 0', scoreTextConfig);
+    super(scene, x, y, 'Score: 0', textBaseConfig);
     scene.add.existing(this);
   }
 

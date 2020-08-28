@@ -28,7 +28,7 @@ export default class MainScene extends Phaser.Scene {
   muted = false;
 
   constructor() {
-    super({ key: 'MainScene' })
+    super({ key: 'MainScene' });
   }
 
   create = (): void => {

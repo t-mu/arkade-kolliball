@@ -1,10 +1,5 @@
 import { ARENA_CENTER_X, ARENA_HEIGHT, ARENA_WIDTH } from "../constants";
-
-const infoTextConfig: Phaser.Types.GameObjects.Text.TextStyle = {
-  color: '#ffffff',
-  fontFamily: '"Press Start 2P"',
-  fontSize: '38px'
-};
+import { textBaseConfig } from "../utils/typography";
 
 const dekstopInfoText = `Left  = \'left arrow\'
 Right = \'right arrow\'
@@ -34,9 +29,9 @@ export default class InfoScene extends Phaser.Scene {
 
   createInfoText = (): void => {
     const infoTextContent = this.isMobile ? mobileInfoText : dekstopInfoText;
-    const infoText = new Phaser.GameObjects.Text(this, ARENA_CENTER_X, ARENA_HEIGHT * 0.25, infoTextContent, infoTextConfig)
+    const infoText = new Phaser.GameObjects.Text(this, ARENA_CENTER_X, ARENA_HEIGHT * 0.25, infoTextContent, textBaseConfig)
       .setOrigin(0.5);
-    const continueText = new Phaser.GameObjects.Text(this, ARENA_CENTER_X, ARENA_HEIGHT * 0.75, `${this.isMobile ? 'Tap' : 'Click'} here to continue ->`, infoTextConfig)
+    const continueText = new Phaser.GameObjects.Text(this, ARENA_CENTER_X, ARENA_HEIGHT * 0.75, `${this.isMobile ? 'Tap' : 'Click'} here to continue ->`, textBaseConfig)
       .setOrigin(0.5)
       .setInteractive()
       .on('pointerdown', this.startMainScene);;
