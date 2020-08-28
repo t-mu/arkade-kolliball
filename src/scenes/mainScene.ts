@@ -3,7 +3,8 @@ import ScoreText from '../objects/scoreText';
 import HumanPlayer from '../objects/humanPlayer';
 import Net from '../objects/net';
 import CpuPlayer from '../objects/cpuPlayer';
-import { CharacterAnimations } from '../types';
+import { CharacterAnimations, HotKey, KeyboardKey } from '../types';
+import { bindHotKeyToScene } from '../utils/utils';
 
 enum CharacterAnimationType {
   WALK = 'walk',
@@ -21,8 +22,9 @@ export default class MainScene extends Phaser.Scene {
   cpuPlayer: CpuPlayer;
   keys: Phaser.Types.Input.Keyboard.CursorKeys;
   net: Phaser.Physics.Arcade.Sprite;
-  music: Phaser.Sound.BaseSound; 
+  music: Phaser.Sound.BaseSound;
   musicControls: Phaser.GameObjects.Image;
+  muted = false;
 
   constructor() {
     super({ key: 'MainScene' })
@@ -45,8 +47,15 @@ export default class MainScene extends Phaser.Scene {
 
     this.player = new HumanPlayer(this, 100, 720, 'left', this.createCharacterAnimations('player'));
     this.cpuPlayer = new CpuPlayer(this, 1180, 720, 'right', this.createCharacterAnimations('cpu'));
-    
+
     this.initMusic();
+    this.bindHotKeys();
+
+    this.scene.scene.events.on('resume', () => {
+      if (!this.muted && this.music.isPaused) {
+        this.music.resume();
+      }
+    });
   }
 
   update = (): void => {
@@ -60,8 +69,19 @@ export default class MainScene extends Phaser.Scene {
   }
 
   public toggleMusic = (): void => {
-    this.musicControls.setTexture(this.music.isPlaying ? 'music-off' : 'music-on');
-    this.music.isPlaying ? this.music.pause() : this.music.resume();
+    this.muted ? this.unMute() : this.mute();
+  }
+
+  private mute = (): void => {
+    this.muted = true;
+    this.musicControls.setTexture('music-off');
+    this.music.pause();
+  }
+
+  private unMute = (): void => {
+    this.muted = false;
+    this.musicControls.setTexture('music-on');
+    this.music.resume();
   }
 
   private checkCollisions = (): void => {
@@ -103,7 +123,7 @@ export default class MainScene extends Phaser.Scene {
     for (let animationType in CharacterAnimationType) {
       const animationName: string = CharacterAnimationType[animationType];
       const animationKey: string = `${characterPrefix}-${animationName}`;
-      
+
       this.anims.create({
         key: animationKey,
         yoyo: true,
@@ -116,8 +136,27 @@ export default class MainScene extends Phaser.Scene {
 
       characterAnimations[animationName] = animationKey;
     }
-    
+
     return characterAnimations;
+  }
+
+  private bindHotKeys = (): void => {
+    const mute: HotKey = {
+      key: KeyboardKey.M,
+      action: () => this.toggleMusic(),
+    }
+
+    const pause: HotKey = {
+      key: KeyboardKey.P,
+      action: () => {
+        this.music.pause();
+        this.scene.pause();
+        this.scene.launch('PauseScene');
+      },
+    }
+
+    bindHotKeyToScene(this)(mute);
+    bindHotKeyToScene(this)(pause);
   }
 
   private initMusic = (): void => {

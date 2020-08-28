@@ -1,4 +1,4 @@
-import WebFontFile from "../util/webFontLoader";
+import WebFontFile from "../utils/webFontLoader";
 import { ARENA_HEIGHT, ARENA_WIDTH } from '../constants';
 
 export default class PreloadScene extends Phaser.Scene {
@@ -8,7 +8,7 @@ export default class PreloadScene extends Phaser.Scene {
 
   preload() {
     this.cameras.main.setBackgroundColor(0x000000);
-    
+
     this.showLoadingText();
 
     // IMAGES
@@ -72,12 +72,12 @@ export default class PreloadScene extends Phaser.Scene {
     });
 
     loadingText.setOrigin(0.5, 0.5);
-    
+
     let loadingBallAmount = 0;
     const loadingInterval = setInterval(() => {
       loadingBallAmount += 1;
       loadingText.text = `Loading${'.'.repeat(loadingBallAmount)}`;
-      
+
       if (loadingBallAmount >= 3) {
         loadingBallAmount = 0;
       }

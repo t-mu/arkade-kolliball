@@ -1,6 +1,8 @@
-import 'phaser'
-import MainScene from './scenes/mainScene'
-import PreloadScene from './scenes/preloadScene'
+import 'phaser';
+import MainScene from './scenes/mainScene';
+import PauseScene from './scenes/pauseScene';
+import PreloadScene from './scenes/preloadScene';
+import PuseScene from './scenes/preloadScene';
 
 export const DEFAULT_WIDTH = 1280
 export const DEFAULT_HEIGHT = 720
@@ -16,7 +18,7 @@ const config: Phaser.Types.Core.GameConfig & Phaser.Types.Core.RenderConfig = {
     height: DEFAULT_HEIGHT
   },
   pixelArt: true,
-  scene: [PreloadScene, MainScene],
+  scene: [PreloadScene, MainScene, PauseScene],
   physics: {
     default: 'arcade',
     arcade: {
@@ -27,5 +29,5 @@ const config: Phaser.Types.Core.GameConfig & Phaser.Types.Core.RenderConfig = {
 }
 
 window.addEventListener('load', () => {
-  const game = new Phaser.Game(config)
+  const game = new Phaser.Game(config);
 });
