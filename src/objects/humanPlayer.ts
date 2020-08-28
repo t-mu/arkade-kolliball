@@ -14,10 +14,12 @@ export default class HumanPlayer extends Player {
     if (!this.scene.game.device.os.desktop) {
       this.handleTouchMovement();
     }
+    else {
+      this.handleKeyboardMovement();
+    }
   }
 
   public update = (): void => {
-    this.handleKeyboardMovement();
     this.checkState();
   }
 
