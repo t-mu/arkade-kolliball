@@ -11,7 +11,7 @@ export default class PauseScene extends Phaser.Scene {
     this.add.text(ARENA_CENTER_X, ARENA_CENTER_Y, 'PAUSED', {
       color: '#ffffff',
       font: '72px',
-      fontFamily: 'Press Start 2P',
+      fontFamily: '"Press Start 2P"',
     }).setOrigin(0.5, 0.5);
 
     const unPause: HotKey = {
