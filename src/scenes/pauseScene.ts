@@ -1,4 +1,4 @@
-import { ARENA_HEIGHT, ARENA_WIDTH } from "../constants";
+import { ARENA_CENTER_X, ARENA_CENTER_Y } from "../constants";
 import { HotKey, KeyboardKey } from "../types";
 import { bindHotKeyToScene } from "../utils/utils";
 
@@ -8,7 +8,7 @@ export default class PauseScene extends Phaser.Scene {
   }
 
   create = () => {
-    this.add.text(ARENA_WIDTH / 2, ARENA_HEIGHT / 2, 'PAUSED', {
+    this.add.text(ARENA_CENTER_X, ARENA_CENTER_Y, 'PAUSED', {
       color: '#ffffff',
       font: '72px',
       fontFamily: 'Press Start 2P',

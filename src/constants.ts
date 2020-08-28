@@ -5,3 +5,5 @@ export const DEFAULT_CHARACTER_MASS_MULTIPLIER = 0.5;
 export const DEFAULT_CHARACTER_GRAVITY = 1000;
 export const ARENA_HEIGHT = 720;
 export const ARENA_WIDTH = 1280;
+export const ARENA_CENTER_X = ARENA_WIDTH / 2;
+export const ARENA_CENTER_Y = ARENA_HEIGHT / 2;

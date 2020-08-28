@@ -5,6 +5,7 @@ import Net from '../objects/net';
 import CpuPlayer from '../objects/cpuPlayer';
 import { CharacterAnimations, HotKey, KeyboardKey } from '../types';
 import { bindHotKeyToScene } from '../utils/utils';
+import { ARENA_CENTER_X, ARENA_CENTER_Y, ARENA_HEIGHT, ARENA_WIDTH } from '../constants';
 
 enum CharacterAnimationType {
   WALK = 'walk',
@@ -31,22 +32,20 @@ export default class MainScene extends Phaser.Scene {
   }
 
   create = (): void => {
-    const bg = this.add.image(640, 360, 'background').setOrigin(0.5, 0.5);
+    const bg = this.add.image(ARENA_CENTER_X, ARENA_CENTER_Y, 'background').setOrigin(0.5);
     bg.scale = 4;
 
-    this.ball = new Ball(this, 640, 0);
+    this.ball = new Ball(this, ARENA_CENTER_X, 0);
     this.resetBall();
 
-    this.net = new Net(this, 640, 540);
-    this.net.setDebugBodyColor(0x000000);
-    this.net.debugShowBody = true;
+    this.net = new Net(this, ARENA_CENTER_X, 0.75 * ARENA_HEIGHT);
 
     this.scoreText = new ScoreText(this, 10, 10);
-    this.scoreText2 = new ScoreText(this, 1270, 10);
+    this.scoreText2 = new ScoreText(this, ARENA_WIDTH - 10, 10);
     this.scoreText2.setOrigin(1, 0);
 
-    this.player = new HumanPlayer(this, 100, 720, 'left', this.createCharacterAnimations('player'));
-    this.cpuPlayer = new CpuPlayer(this, 1180, 720, 'right', this.createCharacterAnimations('cpu'));
+    this.player = new HumanPlayer(this, 0.1 * ARENA_WIDTH, ARENA_HEIGHT, 'left', this.createCharacterAnimations('player'));
+    this.cpuPlayer = new CpuPlayer(this, 0.9 * ARENA_WIDTH, ARENA_HEIGHT, 'right', this.createCharacterAnimations('cpu'));
 
     this.initMusic();
     this.bindHotKeys();
@@ -106,7 +105,7 @@ export default class MainScene extends Phaser.Scene {
   }
 
   private resetBall = (): void => {
-    this.ball.x = 640;
+    this.ball.x = ARENA_CENTER_X;
     this.ball.y = 30;
     this.ball.setVelocityX(Math.random() > 0.5 ? 35 : -35);
     this.ball.setVelocityY(0);
@@ -160,7 +159,7 @@ export default class MainScene extends Phaser.Scene {
   }
 
   private initMusic = (): void => {
-    this.musicControls = this.add.image(1260, 60, 'music-on').setOrigin(1, 0);
+    this.musicControls = this.add.image(ARENA_WIDTH - 20, 60, 'music-on').setOrigin(1, 0);
     this.musicControls.setInteractive();
     this.musicControls.scale = 4;
     this.musicControls.on('pointerdown', () => {
