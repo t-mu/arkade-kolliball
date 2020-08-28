@@ -26,8 +26,17 @@ export default class InfoScene extends Phaser.Scene {
   }
 
   createDesktopInfo = (): void => {
-    this.add.text(ARENA_CENTER_X, ARENA_HEIGHT * 0.25, 'Left\t\t=\t\'left arrow\'\nRight\t=\t\'right arrow\'\nJump\t\t=\t\'space\'/\'up arrow\'', infoTextConfig)
-      .setOrigin(0.5);
+    // this.add.text(ARENA_CENTER_X, ARENA_HEIGHT * 0.25, 'Left\t\t=\t\'left arrow\'\nRight\t=\t\'right arrow\'\nJump\t\t=\t\'space\'/\'up arrow\'', infoTextConfig)
+    //   .setOrigin(0.5);
+    this.add.text(ARENA_CENTER_X, ARENA_HEIGHT * 0.25,
+      `
+      Left  = \'left arrow\'
+      Right = \'right arrow\'
+      Jump  = 'space\'/\'up arrow\'
+      Pause = 'P'
+      Mute  = 'M'
+      `,
+      infoTextConfig).setOrigin(0.5);
   }
 
   createMobileInfo = (): void => {
