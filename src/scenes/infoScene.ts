@@ -6,7 +6,15 @@ const infoTextConfig = {
   fontFamily: '"Press Start 2P"',
 }
 
+const dekstopInfoText = `Left  = \'left arrow\'
+Right = \'right arrow\'
+Jump  = 'space\'/\'up arrow\'
+Pause = 'P'
+Mute  = 'M'`;
 
+const mobileInfoText = `Left  = touch left side
+Right = touch right side
+Jump  = swipe upwards`;
 
 export default class InfoScene extends Phaser.Scene {
   isMobile: boolean;
@@ -17,37 +25,17 @@ export default class InfoScene extends Phaser.Scene {
   create = (): void => {
     this.isMobile = !this.game.device.os.desktop;
     this.cameras.main.setBackgroundColor(0x000000);
-    this.isMobile ? this.createMobileInfo() : this.createDesktopInfo();
-    this.createContinueText();
+    this.createInfoText();
   }
 
   startMainScene = (): void => {
     this.scene.start('MainScene');
   }
 
-  createDesktopInfo = (): void => {
-    this.add.text(ARENA_CENTER_X, ARENA_HEIGHT * 0.25,
-      `
-      Left  = \'left arrow\'
-      Right = \'right arrow\'
-      Jump  = 'space\'/\'up arrow\'
-      Pause = 'P'
-      Mute  = 'M'
-      `,
-      infoTextConfig).setOrigin(0.5);
-  }
+  createInfoText = (): void => {
+    const text = this.isMobile ? mobileInfoText : dekstopInfoText;
+    this.add.text(ARENA_CENTER_X, ARENA_HEIGHT * 0.25, text, infoTextConfig).setOrigin(0.5);
 
-  createMobileInfo = (): void => {
-    this.add.text(ARENA_CENTER_X, ARENA_HEIGHT * 0.25,
-      `
-      Left  = touch left side
-      Right = touch right side
-      Jump  = swipe upwards
-      `,
-      infoTextConfig).setOrigin(0.5);
-  }
-
-  createContinueText = (): void => {
     this.add.text(ARENA_CENTER_X, ARENA_HEIGHT * 0.75, `${this.isMobile ? 'Tap' : 'Click'} here to continue ->`, infoTextConfig)
       .setOrigin(0.5, 0.5)
       .setInteractive()
