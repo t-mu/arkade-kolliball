@@ -4,6 +4,7 @@ import InfoScene from './scenes/infoScene';
 import GameScene from './scenes/gameScene';
 import PauseScene from './scenes/pauseScene';
 import PreloadScene from './scenes/preloadScene';
+import MenuScene from './scenes/menuScene';
 
 const config: Phaser.Types.Core.GameConfig & Phaser.Types.Core.RenderConfig = {
   type: Phaser.AUTO,
@@ -16,7 +17,7 @@ const config: Phaser.Types.Core.GameConfig & Phaser.Types.Core.RenderConfig = {
     height: ARENA_HEIGHT,
   },
   pixelArt: true,
-  scene: [PreloadScene, InfoScene, GameScene, PauseScene],
+  scene: [PreloadScene, MenuScene, InfoScene, GameScene, PauseScene],
   physics: {
     default: 'arcade',
     arcade: {

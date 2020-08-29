@@ -1,6 +1,15 @@
 import CpuCharacter from "./objects/cpuCharacter";
 import PlayerCharacter from "./objects/playerCharacter";
 
+// TODO: come up with a better name?
+export enum SceneName {
+  GAME = 'GameScene',
+  MENU = 'MenuScene',
+  INFO = 'InfoScene',
+  PAUSE = 'PauseScene',
+  PRELOAD = 'PreloadScene',
+}
+
 export enum Court {
   LEFT,
   RIGHT,
@@ -23,3 +32,8 @@ export type HotKey = {
 }
 
 export type TeamMember = PlayerCharacter | CpuCharacter;
+
+export type Position = {
+  x: number;
+  y: number;
+}

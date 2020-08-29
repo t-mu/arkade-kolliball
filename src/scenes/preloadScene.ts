@@ -1,9 +1,10 @@
 import WebFontFile from "../utils/webFontLoader";
 import { ARENA_HEIGHT, ARENA_WIDTH } from '../constants';
+import { SceneName } from "../types";
 
 export default class PreloadScene extends Phaser.Scene {
   constructor() {
-    super({ key: 'PreloadScene' })
+    super({ key: SceneName.PRELOAD })
   }
 
   preload() {
@@ -43,7 +44,7 @@ export default class PreloadScene extends Phaser.Scene {
   }
 
   create() {
-    this.scene.start('InfoScene');
+    this.scene.start(SceneName.MENU);
 
     // TODO: check lazy loading of scenes
   }

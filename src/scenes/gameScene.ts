@@ -3,10 +3,10 @@ import ScoreText from '../objects/scoreText';
 import PlayerCharacter from '../objects/playerCharacter';
 import Net from '../objects/net';
 import CpuCharacter from '../objects/cpuCharacter';
-import { Court, HotKey, KeyboardKey, TeamMember } from '../types';
+import { Court, HotKey, KeyboardKey, SceneName, TeamMember } from '../types';
 import { bindHotKeyToScene } from '../utils/utils';
 import { ARENA_CENTER_X, ARENA_CENTER_Y, ARENA_HEIGHT, ARENA_WIDTH } from '../constants';
-import { Team } from '../misc/team';
+import { Team } from '../common/team';
 
 
 export default class GameScene extends Phaser.Scene {
@@ -22,7 +22,7 @@ export default class GameScene extends Phaser.Scene {
   muted = false;
 
   constructor() {
-    super({ key: 'GameScene' });
+    super({ key: SceneName.GAME });
   }
 
   create = (): void => {
@@ -130,7 +130,7 @@ export default class GameScene extends Phaser.Scene {
       action: () => {
         this.music.pause();
         this.scene.pause();
-        this.scene.launch('PauseScene');
+        this.scene.launch(SceneName.PAUSE);
       },
     }
 

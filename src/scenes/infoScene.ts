@@ -1,4 +1,5 @@
-import { ARENA_CENTER_X, ARENA_HEIGHT } from "../constants";
+import { ARENA_CENTER_X, ARENA_CENTER_Y, ARENA_HEIGHT } from "../constants";
+import { SceneName } from "../types";
 import { textBaseConfig } from "../utils/typography";
 
 const dekstopInfoText = `Left  = \'left arrow\'
@@ -14,7 +15,7 @@ Jump  = swipe upwards`;
 export default class InfoScene extends Phaser.Scene {
   isMobile: boolean;
   constructor() {
-    super({ key: 'InfoScene' });
+    super({ key: SceneName.INFO });
   }
 
   create = (): void => {
@@ -24,19 +25,18 @@ export default class InfoScene extends Phaser.Scene {
   }
 
   startGameScene = (): void => {
-    this.scene.start('GameScene');
+    this.scene.start(SceneName.MENU);
   }
 
   createInfoText = (): void => {
     const infoTextContent = this.isMobile ? mobileInfoText : dekstopInfoText;
-    const infoText = new Phaser.GameObjects.Text(this, ARENA_CENTER_X, ARENA_HEIGHT * 0.25, infoTextContent, textBaseConfig)
+    const infoText = new Phaser.GameObjects.Text(this, ARENA_CENTER_X, ARENA_CENTER_Y, infoTextContent, textBaseConfig)
       .setOrigin(0.5);
-    const continueText = new Phaser.GameObjects.Text(this, ARENA_CENTER_X, ARENA_HEIGHT * 0.75, `${this.isMobile ? 'Tap' : 'Click'} here to continue ->`, textBaseConfig)
-      .setOrigin(0.5)
+    const backToMenuText = new Phaser.GameObjects.Text(this, 40, 10, '<- back to menu', textBaseConfig)
       .setInteractive()
       .on('pointerdown', this.startGameScene);
 
     this.add.existing(infoText);
-    this.add.existing(continueText);
+    this.add.existing(backToMenuText);
   }
 }
