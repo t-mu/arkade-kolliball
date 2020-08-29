@@ -1,4 +1,7 @@
-export type CourtType = 'left' | 'right';
+export enum Court {
+  LEFT,
+  RIGHT,
+}
 
 export type CharacterAnimations = {
   walk: string,

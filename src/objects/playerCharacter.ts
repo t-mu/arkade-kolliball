@@ -1,29 +1,30 @@
 import MainScene from "../scenes/mainScene";
-import Player from "./player";
-import { CourtType, CharacterAnimations } from "../types";
+import CharacterBase from "./characterBase";
+import { Court } from "../types";
 import { ARENA_WIDTH } from '../constants';
 
-export default class HumanPlayer extends Player {
+export default class PlayerCharacter extends CharacterBase {
   controls: Phaser.Types.Input.Keyboard.CursorKeys;
 
-  constructor(scene: MainScene, x: number, y: number, court: CourtType, animations: CharacterAnimations) {
-    super(scene, x, y, 'kolli-magenta', court, animations);
+  constructor(scene: MainScene, characterName: string, court: Court) {
+    super(scene, characterName, court);
+
     this.controls = this.scene.input.keyboard.createCursorKeys();
     this.body.setCircle(50);
 
     if (!this.scene.game.device.os.desktop) {
-      this.handleTouchMovement();
+      this.initTouchListeners();
     }
     else {
-      this.handleKeyboardMovement();
+      this.initKeyboardListeners();
     }
   }
 
-  public update = (): void => {
+  update = (): void => {
     this.checkState();
   }
 
-  private handleKeyboardMovement = (): void => {
+  private initKeyboardListeners = (): void => {
     const { left, right, up, space } = this.controls;
 
     left?.on('down', () => {
@@ -55,7 +56,7 @@ export default class HumanPlayer extends Player {
     });
   }
 
-  private handleTouchMovement = (): void => {
+  private initTouchListeners = (): void => {
     this.scene.input.addPointer(2);
     const { pointer1, pointer2 } = this.scene.input;
 

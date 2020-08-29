@@ -1,10 +1,10 @@
-import Player from "./player"
+import CharacterBase from "./characterBase"
 import MainScene from "../scenes/mainScene";
-import { CourtType, CharacterAnimations } from "../types";
+import { Court } from "../types";
 
-export default class CpuPlayer extends Player {
-  constructor(scene: Phaser.Scene | MainScene, x: number, y: number, court: CourtType, animations: CharacterAnimations) {
-    super(scene, x, y, 'kolli-cyan', court, animations);
+export default class CpuCharacter extends CharacterBase {
+  constructor(scene: MainScene, characterName: string, court: Court) {
+    super(scene, characterName, court);
     this.body.setCircle(50);
   }
 

@@ -7,3 +7,5 @@ export const ARENA_HEIGHT = 720;
 export const ARENA_WIDTH = 1280;
 export const ARENA_CENTER_X = ARENA_WIDTH / 2;
 export const ARENA_CENTER_Y = ARENA_HEIGHT / 2;
+export const LEFT_COURT_CENTER_X = ARENA_WIDTH * 0.25;
+export const RIGHT_COURT_CENTER_X = ARENA_WIDTH * 0.75;

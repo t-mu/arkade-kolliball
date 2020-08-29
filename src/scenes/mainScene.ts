@@ -1,17 +1,11 @@
 import Ball from '../objects/ball';
 import ScoreText from '../objects/scoreText';
-import HumanPlayer from '../objects/humanPlayer';
+import PlayerCharacter from '../objects/playerCharacter';
 import Net from '../objects/net';
-import CpuPlayer from '../objects/cpuPlayer';
-import { CharacterAnimations, HotKey, KeyboardKey } from '../types';
+import CpuCharacter from '../objects/cpuCharacter';
+import { Court, HotKey, KeyboardKey } from '../types';
 import { bindHotKeyToScene } from '../utils/utils';
 import { ARENA_CENTER_X, ARENA_CENTER_Y, ARENA_HEIGHT, ARENA_WIDTH } from '../constants';
-
-enum CharacterAnimationType {
-  WALK = 'walk',
-  IDLE = 'idle',
-  JUMP = 'jump',
-}
 
 export default class MainScene extends Phaser.Scene {
   scoreText: Phaser.GameObjects.Text;
@@ -19,8 +13,8 @@ export default class MainScene extends Phaser.Scene {
   playerScore = 0;
   cpuScore = 0;
   ball: Ball;
-  player: HumanPlayer;
-  cpuPlayer: CpuPlayer;
+  player: PlayerCharacter;
+  cpuPlayer: CpuCharacter;
   keys: Phaser.Types.Input.Keyboard.CursorKeys;
   net: Phaser.Physics.Arcade.Sprite;
   music: Phaser.Sound.BaseSound;
@@ -35,17 +29,16 @@ export default class MainScene extends Phaser.Scene {
     const bg = this.add.image(ARENA_CENTER_X, ARENA_CENTER_Y, 'background').setOrigin(0.5);
     bg.scale = 4;
 
-    this.ball = new Ball(this, ARENA_CENTER_X, 0);
-    this.resetBall();
-
-    this.net = new Net(this, ARENA_CENTER_X, 0.75 * ARENA_HEIGHT);
-
     this.scoreText = new ScoreText(this, 10, 10);
     this.scoreText2 = new ScoreText(this, ARENA_WIDTH - 10, 10);
     this.scoreText2.setOrigin(1, 0);
 
-    this.player = new HumanPlayer(this, 0.1 * ARENA_WIDTH, ARENA_HEIGHT, 'left', this.createCharacterAnimations('player'));
-    this.cpuPlayer = new CpuPlayer(this, 0.9 * ARENA_WIDTH, ARENA_HEIGHT, 'right', this.createCharacterAnimations('cpu'));
+    this.net = new Net(this, ARENA_CENTER_X, 0.75 * ARENA_HEIGHT);
+    this.ball = new Ball(this, ARENA_CENTER_X, 0);
+    this.resetBall();
+
+    this.player = new PlayerCharacter(this, 'player', Court.LEFT);
+    this.cpuPlayer = new CpuCharacter(this, 'cpu', Court.RIGHT);
 
     this.initMusic();
     this.bindHotKeys();
@@ -109,34 +102,6 @@ export default class MainScene extends Phaser.Scene {
     this.ball.y = 30;
     this.ball.setVelocityX(Math.random() > 0.5 ? 35 : -35);
     this.ball.setVelocityY(0);
-  }
-
-  // TODO: rework this later
-  private createCharacterAnimations = (characterPrefix: string): CharacterAnimations => {
-    let characterAnimations: CharacterAnimations = {
-      walk: '',
-      idle: '',
-      jump: '',
-    };
-
-    for (let animationType in CharacterAnimationType) {
-      const animationName: string = CharacterAnimationType[animationType];
-      const animationKey: string = `${characterPrefix}-${animationName}`;
-
-      this.anims.create({
-        key: animationKey,
-        yoyo: true,
-        repeat: -1,
-        frames: this.anims.generateFrameNumbers(animationKey, {
-          frames: [5, 4, 3, 2, 1]
-        }),
-        frameRate: animationName === CharacterAnimationType.WALK ? 10 : 5,
-      });
-
-      characterAnimations[animationName] = animationKey;
-    }
-
-    return characterAnimations;
   }
 
   private bindHotKeys = (): void => {
