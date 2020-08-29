@@ -17,7 +17,7 @@ export default class PauseScene extends Phaser.Scene {
       key: KeyboardKey.P,
       action: () => {
         this.scene.stop();
-        this.scene.resume('MainScene');
+        this.scene.resume('GameScene');
       }
     }
 

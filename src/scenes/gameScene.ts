@@ -9,7 +9,7 @@ import { ARENA_CENTER_X, ARENA_CENTER_Y, ARENA_HEIGHT, ARENA_WIDTH } from '../co
 import { Team } from '../misc/team';
 
 
-export default class MainScene extends Phaser.Scene {
+export default class GameScene extends Phaser.Scene {
   scoreText: Phaser.GameObjects.Text;
   scoreText2: Phaser.GameObjects.Text;
   leftTeam: Team;
@@ -22,7 +22,7 @@ export default class MainScene extends Phaser.Scene {
   muted = false;
 
   constructor() {
-    super({ key: 'MainScene' });
+    super({ key: 'GameScene' });
   }
 
   create = (): void => {

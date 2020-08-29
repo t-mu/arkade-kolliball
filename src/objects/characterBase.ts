@@ -1,3 +1,4 @@
+import Phaser from 'phaser'; // For some reason vs code requires this for type inference in this file
 import {
   DEFAULT_CHARACTER_MASS_MULTIPLIER,
   DEFAULT_CHARACTER_GRAVITY,

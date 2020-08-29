@@ -1,4 +1,4 @@
-import { ARENA_CENTER_X, ARENA_HEIGHT, ARENA_WIDTH } from "../constants";
+import { ARENA_CENTER_X, ARENA_HEIGHT } from "../constants";
 import { textBaseConfig } from "../utils/typography";
 
 const dekstopInfoText = `Left  = \'left arrow\'
@@ -23,8 +23,8 @@ export default class InfoScene extends Phaser.Scene {
     this.createInfoText();
   }
 
-  startMainScene = (): void => {
-    this.scene.start('MainScene');
+  startGameScene = (): void => {
+    this.scene.start('GameScene');
   }
 
   createInfoText = (): void => {
@@ -34,7 +34,7 @@ export default class InfoScene extends Phaser.Scene {
     const continueText = new Phaser.GameObjects.Text(this, ARENA_CENTER_X, ARENA_HEIGHT * 0.75, `${this.isMobile ? 'Tap' : 'Click'} here to continue ->`, textBaseConfig)
       .setOrigin(0.5)
       .setInteractive()
-      .on('pointerdown', this.startMainScene);;
+      .on('pointerdown', this.startGameScene);
 
     this.add.existing(infoText);
     this.add.existing(continueText);

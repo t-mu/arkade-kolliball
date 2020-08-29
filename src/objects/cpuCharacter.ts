@@ -1,9 +1,9 @@
 import CharacterBase from "./characterBase"
-import MainScene from "../scenes/mainScene";
+import GameScene from "../scenes/gameScene";
 import { Court } from "../types";
 
 export default class CpuCharacter extends CharacterBase {
-  constructor(scene: MainScene, characterName: string, court: Court) {
+  constructor(scene: GameScene, characterName: string, court: Court) {
     super(scene, characterName, court);
     this.body.setCircle(50);
   }
@@ -24,7 +24,7 @@ export default class CpuCharacter extends CharacterBase {
   }
 
   private handleMovement = (): void => {
-    const { ball } = this.scene as MainScene;
+    const { ball } = this.scene as GameScene;
     const horizontalBallDistance: number = Math.abs(ball.x - this.body.x);
     const vertucalBallDistance: number = Math.abs(this.body.y - ball.y);
 

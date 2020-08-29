@@ -1,4 +1,4 @@
-import MainScene from "../scenes/mainScene";
+import GameScene from "../scenes/gameScene";
 
 const velocityMultiplier = 20;
 
@@ -6,7 +6,7 @@ export default class Ball extends Phaser.Physics.Arcade.Sprite {
   spin = 2;
   spinAdjustment = 2;
 
-  constructor(scene: MainScene, x: number, y: number) {
+  constructor(scene: GameScene, x: number, y: number) {
     super(scene, x, y, 'kolliball')
 
     scene.add.existing(this);

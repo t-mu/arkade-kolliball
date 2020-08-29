@@ -1,4 +1,4 @@
-import MainScene from "../scenes/mainScene";
+import GameScene from "../scenes/gameScene";
 import CharacterBase from "./characterBase";
 import { Court } from "../types";
 import { ARENA_WIDTH } from '../constants';
@@ -6,7 +6,7 @@ import { ARENA_WIDTH } from '../constants';
 export default class PlayerCharacter extends CharacterBase {
   controls: Phaser.Types.Input.Keyboard.CursorKeys;
 
-  constructor(scene: MainScene, characterName: string, court: Court) {
+  constructor(scene: GameScene, characterName: string, court: Court) {
     super(scene, characterName, court);
 
     this.controls = this.scene.input.keyboard.createCursorKeys();

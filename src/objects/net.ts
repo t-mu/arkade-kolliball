@@ -1,7 +1,7 @@
-import MainScene from "../scenes/mainScene";
+import GameScene from "../scenes/gameScene";
 
 export default class Net extends Phaser.Physics.Arcade.Sprite {
-  constructor(scene: MainScene, x: number, y: number) {
+  constructor(scene: GameScene, x: number, y: number) {
     super(scene, x, y, 'net');
 
     this.scene.add.existing(this);
