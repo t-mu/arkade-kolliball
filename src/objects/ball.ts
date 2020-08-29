@@ -26,19 +26,8 @@ export default class Ball extends Phaser.Physics.Arcade.Sprite {
 
   adjustSpin = (): void => {
     const { left, right, up, down } = this.body.touching;
-
-    if (left && down) {
-      this.spinAdjustment = 2;
-    }
-    if (right && down) {
-      this.spinAdjustment = -2;
-    }
-    if (left && up) {
-      this.spinAdjustment = -2;
-    }
-    if (right && up) {
-      this.spinAdjustment = 2;
-    }
+    const spinRight = (left && down) || (right && up);
+    this.spinAdjustment = spinRight ? this.spinAdjustment : -this.spinAdjustment;
   }
 
   private initCollisionDetection = (): void => {
