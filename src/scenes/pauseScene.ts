@@ -21,6 +21,6 @@ export default class PauseScene extends Phaser.Scene {
       }
     }
 
-    bindHotKeyToScene(this)(unPause);
+    bindHotKeyToScene(unPause)(this);
   }
 }

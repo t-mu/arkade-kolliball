@@ -17,7 +17,6 @@ export default class Ball extends Phaser.Physics.Arcade.Sprite {
     this.body.setCircle(50);
 
     this.initCollisionDetection();
-    // this.initClickDetection();
   }
 
   update = (): void => {
@@ -46,19 +45,4 @@ export default class Ball extends Phaser.Physics.Arcade.Sprite {
     this.setCollideWorldBounds(true)
       .setBounce(0.6);
   }
-
-  // private initClickDetection = (): void => {
-  //   this.setInteractive()
-  //     .on('pointerdown', ({ x, y }: Phaser.Input.Pointer) => {
-  //       const pointerCoords = { x, y };
-  //       const logoCoords = { x: this.x, y: this.y };
-  //       const horizontalVelocity = (logoCoords.x - pointerCoords.x) * velocityMultiplier;
-  //       const verticalVelocity = (logoCoords.y - pointerCoords.y) * velocityMultiplier;
-
-
-  //       this.setVelocityX(horizontalVelocity);
-  //       this.setVelocityY(verticalVelocity);
-  //       this.spinAdjustment = (logoCoords.x - pointerCoords.x) > 0 ? 2 : -2;
-  //     });
-  // }
 }

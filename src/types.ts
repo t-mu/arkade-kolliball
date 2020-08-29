@@ -1,3 +1,6 @@
+import CpuCharacter from "./objects/cpuCharacter";
+import PlayerCharacter from "./objects/playerCharacter";
+
 export enum Court {
   LEFT,
   RIGHT,
@@ -18,3 +21,5 @@ export type HotKey = {
   key: KeyboardKey;
   action: () => void;
 }
+
+export type TeamMember = PlayerCharacter | CpuCharacter;

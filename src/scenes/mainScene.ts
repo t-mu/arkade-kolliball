@@ -3,20 +3,20 @@ import ScoreText from '../objects/scoreText';
 import PlayerCharacter from '../objects/playerCharacter';
 import Net from '../objects/net';
 import CpuCharacter from '../objects/cpuCharacter';
-import { Court, HotKey, KeyboardKey } from '../types';
+import { Court, HotKey, KeyboardKey, TeamMember } from '../types';
 import { bindHotKeyToScene } from '../utils/utils';
 import { ARENA_CENTER_X, ARENA_CENTER_Y, ARENA_HEIGHT, ARENA_WIDTH } from '../constants';
+import { Team } from '../misc/team';
+
 
 export default class MainScene extends Phaser.Scene {
   scoreText: Phaser.GameObjects.Text;
   scoreText2: Phaser.GameObjects.Text;
-  playerScore = 0;
-  cpuScore = 0;
+  leftTeam: Team;
+  rightTeam: Team;
   ball: Ball;
-  player: PlayerCharacter;
-  cpuPlayer: CpuCharacter;
   keys: Phaser.Types.Input.Keyboard.CursorKeys;
-  net: Phaser.Physics.Arcade.Sprite;
+  net: Net;
   music: Phaser.Sound.BaseSound;
   musicControls: Phaser.GameObjects.Image;
   muted = false;
@@ -29,6 +29,7 @@ export default class MainScene extends Phaser.Scene {
     const bg = this.add.image(ARENA_CENTER_X, ARENA_CENTER_Y, 'background').setOrigin(0.5);
     bg.scale = 4;
 
+    // TODO: in the future move to some header/scoreboard scene
     this.scoreText = new ScoreText(this, 10, 10);
     this.scoreText2 = new ScoreText(this, ARENA_WIDTH - 10, 10);
     this.scoreText2.setOrigin(1, 0);
@@ -37,8 +38,10 @@ export default class MainScene extends Phaser.Scene {
     this.ball = new Ball(this, ARENA_CENTER_X, 0);
     this.resetBall();
 
-    this.player = new PlayerCharacter(this, 'player', Court.LEFT);
-    this.cpuPlayer = new CpuCharacter(this, 'cpu', Court.RIGHT);
+    const player = new PlayerCharacter(this, 'player', Court.LEFT);
+    const cpuPlayer = new CpuCharacter(this, 'cpu', Court.RIGHT);
+    this.leftTeam = new Team('solid-snakes', [player]);
+    this.rightTeam = new Team('sloppy-sloths', [cpuPlayer]);
 
     this.initMusic();
     this.bindHotKeys();
@@ -52,15 +55,22 @@ export default class MainScene extends Phaser.Scene {
 
   update = (): void => {
     this.ball.update();
-    this.scoreText.update(this.playerScore);
-    this.scoreText2.update(this.cpuScore);
-    this.player.update();
-    this.cpuPlayer.update();
+
+    this.scoreText.update(this.leftTeam.score);
+    this.scoreText2.update(this.rightTeam.score);
+
+    this.leftTeam.members.forEach((m) => {
+      m.update();
+    });
+    this.rightTeam.members.forEach((m) => {
+      m.update();
+    });
+
     this.updateScore();
     this.checkCollisions();
   }
 
-  public toggleMusic = (): void => {
+  toggleMusic = (): void => {
     this.muted ? this.unMute() : this.mute();
   }
 
@@ -77,11 +87,17 @@ export default class MainScene extends Phaser.Scene {
   }
 
   private checkCollisions = (): void => {
-    this.physics.collide(this.player, this.ball, this.ball.adjustSpin);
-    this.physics.collide(this.cpuPlayer, this.ball, this.ball.adjustSpin);
     this.physics.collide(this.net, this.ball);
-    this.physics.collide(this.net, this.player);
-    this.physics.collide(this.net, this.cpuPlayer);
+
+    this.leftTeam.members.forEach((m) => {
+      this.physics.collide(m, this.ball, this.ball.adjustSpin);
+      this.physics.collide(m, this.net);
+    });
+
+    this.rightTeam.members.forEach((m) => {
+      this.physics.collide(m, this.ball, this.ball.adjustSpin);
+      this.physics.collide(m, this.net);
+    });
   }
 
   private updateScore = (): void => {
@@ -92,8 +108,7 @@ export default class MainScene extends Phaser.Scene {
     }
 
     const impactCoords = this.ball.body.x;
-    impactCoords > 640 ? this.playerScore++ : this.cpuScore++;
-
+    impactCoords > 640 ? this.leftTeam.addScore() : this.rightTeam.addScore();
     this.resetBall();
   }
 
@@ -119,10 +134,11 @@ export default class MainScene extends Phaser.Scene {
       },
     }
 
-    bindHotKeyToScene(this)(mute);
-    bindHotKeyToScene(this)(pause);
+    bindHotKeyToScene(mute)(this);
+    bindHotKeyToScene(pause)(this);
   }
 
+  // TODO: in the future move to some header/scoreboard scene
   private initMusic = (): void => {
     this.musicControls = this.add.image(ARENA_WIDTH - 20, 60, 'music-on').setOrigin(1, 0);
     this.musicControls.setInteractive();
