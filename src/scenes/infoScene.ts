@@ -20,7 +20,7 @@ export default class InfoScene extends Phaser.Scene {
 
   create = (): void => {
     this.isMobile = !this.game.device.os.desktop;
-    this.cameras.main.setBackgroundColor(0x000000);
+    this.cameras.main.setBackgroundColor('#444');
     this.createInfoText();
   }
 
@@ -31,10 +31,19 @@ export default class InfoScene extends Phaser.Scene {
   createInfoText = (): void => {
     const infoTextContent = this.isMobile ? mobileInfoText : dekstopInfoText;
     const infoText = new Phaser.GameObjects.Text(this, ARENA_CENTER_X, ARENA_CENTER_Y, infoTextContent, textBaseConfig)
-      .setOrigin(0.5);
-    const backToMenuText = new Phaser.GameObjects.Text(this, 40, 10, '<- back to menu', textBaseConfig)
+      .setOrigin(0.5)
+      .setShadow(4, 4);
+    const backToMenuText = new Phaser.GameObjects.Text(this, 10, 10, '<- back to menu', textBaseConfig)
       .setInteractive()
-      .on('pointerdown', this.startGameScene);
+      .setShadow(4, 4)
+      .setPadding(10, 10, 10, 10)
+      .on('pointerdown', this.startGameScene)
+      .on('pointerover', () => {
+        backToMenuText.setBackgroundColor('#ff00f9');
+      })
+      .on('pointerout', () => {
+        backToMenuText.setBackgroundColor('transparent');
+      });;
 
     this.add.existing(infoText);
     this.add.existing(backToMenuText);
