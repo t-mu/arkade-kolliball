@@ -1,61 +1,114 @@
-import { ARENA_CENTER_X, ARENA_CENTER_Y, ARENA_HEIGHT, ARENA_WIDTH } from "../constants";
-import { SceneName } from "../types";
-import { defaultFontSize, menuFontSize, textBaseConfig } from "../utils/typography";
+import { ARENA_CENTER_X, ARENA_CENTER_Y } from "../constants";
+import { KeyboardKey, SceneName } from "../types";
+import { menuFontSize, textBaseConfig } from "../utils/typography";
+import { bindHotKeyToScene } from "../utils/utils";
 
 type MenuItem = {
   text: string;
-  goToScene: string;
+  sceneToLaunch: SceneName;
 }
 
 const menuItems: MenuItem[] = [
   {
     text: 'play',
-    goToScene: SceneName.GAME,
+    sceneToLaunch: SceneName.GAME,
   },
   {
     text: 'help',
-    goToScene: SceneName.INFO,
+    sceneToLaunch: SceneName.INFO,
   },
 ];
 
 const menuItemPadding = 20;
-const menuItemSpacing = defaultFontSize + 3 * menuItemPadding; // 3 x paddigs = top/bottom self + 1 top of upper sibling
 
 export default class MenuScene extends Phaser.Scene {
+  activeMenuItemIndex: number = 0;
+  menuItems: Phaser.GameObjects.Text[] = [];
+
   constructor() {
     super({ key: SceneName.MENU });
   }
 
   create = (): void => {
     this.cameras.main.setBackgroundColor("#444");
+    this.createMenu();
+    this.initKeyboardControls();
+  }
 
-    // menu container
-    const menuContainer = new Phaser.GameObjects.Container(this, ARENA_CENTER_X, ARENA_CENTER_Y);
-    this.add.existing(menuContainer);
+  update = (): void => {
+    this.updateActiveMenuItem();
+  }
 
-    // menu items
+  private createMenu = (): void => {
     const menuItemCreator = new Phaser.GameObjects.GameObjectCreator(this);
-    menuItems.forEach(({ text, goToScene }, i: number) => {
-      const firstItemVerticalOffset = -(menuItems.length * 90) / 2;
-      const menuItem = menuItemCreator.text({}, true)
+
+    menuItems.forEach(({ text, sceneToLaunch }, i: number) => {
+      const menuItem = menuItemCreator.text({}, true);
+      this.menuItems.push(menuItem);
+      menuItem
         .setText(text)
         .setStyle({ ...textBaseConfig, fontSize: `${menuFontSize}px` })
         .setInteractive()
         .setOrigin(0.5, 0)
         .setPadding(menuItemPadding, menuItemPadding, menuItemPadding, menuItemPadding)
-        .setPosition(0, firstItemVerticalOffset + i * menuItemSpacing)
         .setShadow(4, 4)
         .on('pointerdown', () => {
-          this.scene.start(goToScene);
+          this.launchScene(sceneToLaunch);
         })
         .on('pointerover', () => {
-          menuItem.setBackgroundColor('#ff00f9');
-        })
-        .on('pointerout', () => {
-          menuItem.setBackgroundColor('transparent');
+          this.activeMenuItemIndex = i;
         });
 
-      menuContainer.add(menuItem);
+      // We can only calculate the offset after all mutations to the Text object have been done
+      // so the height is based on the actual font size and paddings
+      // TODO: rewrite this to a cleaner format
+      const firstMenuItemY = (menuItems.length * menuItem.height / 2);
+      menuItem.setPosition(ARENA_CENTER_X, ARENA_CENTER_Y - firstMenuItemY + i * menuItem.height)
     });
+  }
+
+  private initKeyboardControls = (): void => {
+    const { up, down, space } = this.input.keyboard.createCursorKeys();
+
+    up?.on('down', () => {
+      this.decrementActiveMenuItemIndex();
+    });
+
+    down?.on('down', () => {
+      this.incrementActiveMenuItemIndex();
+    });
+
+    space?.on('down', () => {
+      this.launchScene(menuItems[this.activeMenuItemIndex].sceneToLaunch)
+    });
+
+    bindHotKeyToScene({
+      key: KeyboardKey.ENTER,
+      action: () => {
+        this.launchScene(menuItems[this.activeMenuItemIndex].sceneToLaunch)
+      }
+    })(this);
+  }
+
+  private incrementActiveMenuItemIndex = (): void => {
+    const newIndex = this.activeMenuItemIndex + 1;
+    this.activeMenuItemIndex = newIndex > this.menuItems.length - 1 ? 0 : newIndex;
+    this.menuItems[this.activeMenuItemIndex]
+  }
+
+  private decrementActiveMenuItemIndex = (): void => {
+    const newIndex = this.activeMenuItemIndex - 1;
+    this.activeMenuItemIndex = newIndex < 0 ? this.menuItems.length - 1 : newIndex;
+  }
+
+  private updateActiveMenuItem = (): void => {
+    this.menuItems.forEach((m, i) => {
+      m.setBackgroundColor(i === this.activeMenuItemIndex ? '#ff00f9' : 'transparent');
+    });
+  }
+
+  private launchScene = (scene: SceneName): void => {
+    this.scene.switch(scene)
+    this.input.keyboard.resetKeys();
   }
 }

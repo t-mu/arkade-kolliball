@@ -1,6 +1,7 @@
-import { ARENA_CENTER_X, ARENA_CENTER_Y, ARENA_HEIGHT } from "../constants";
-import { SceneName } from "../types";
+import { ARENA_CENTER_X, ARENA_CENTER_Y } from "../constants";
+import { KeyboardKey, SceneName } from "../types";
 import { textBaseConfig } from "../utils/typography";
+import { bindHotKeyToScene } from "../utils/utils";
 
 const dekstopInfoText = `Left  = \'left arrow\'
 Right = \'right arrow\'
@@ -22,10 +23,12 @@ export default class InfoScene extends Phaser.Scene {
     this.isMobile = !this.game.device.os.desktop;
     this.cameras.main.setBackgroundColor('#444');
     this.createInfoText();
+    this.initKeyboardControls();
   }
 
-  startGameScene = (): void => {
-    this.scene.start(SceneName.MENU);
+  goToMenuScene = (): void => {
+    this.input.keyboard.resetKeys();
+    this.scene.switch(SceneName.MENU);
   }
 
   createInfoText = (): void => {
@@ -34,18 +37,24 @@ export default class InfoScene extends Phaser.Scene {
       .setOrigin(0.5)
       .setShadow(4, 4);
     const backToMenuText = new Phaser.GameObjects.Text(this, 10, 10, '<- back to menu', textBaseConfig)
+
+    backToMenuText
       .setInteractive()
       .setShadow(4, 4)
       .setPadding(10, 10, 10, 10)
-      .on('pointerdown', this.startGameScene)
-      .on('pointerover', () => {
-        backToMenuText.setBackgroundColor('#ff00f9');
-      })
-      .on('pointerout', () => {
-        backToMenuText.setBackgroundColor('transparent');
-      });;
+      .setBackgroundColor('#ff00f9')
+      .on('pointerdown', this.goToMenuScene);
 
     this.add.existing(infoText);
     this.add.existing(backToMenuText);
+  }
+
+  private initKeyboardControls = (): void => {
+    const { space } = this.input.keyboard.createCursorKeys();
+
+    space?.on('down', this.goToMenuScene);
+
+    bindHotKeyToScene({ key: KeyboardKey.ESC, action: this.goToMenuScene })(this);
+    bindHotKeyToScene({ key: KeyboardKey.ENTER, action: this.goToMenuScene })(this);
   }
 }

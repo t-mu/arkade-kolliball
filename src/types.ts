@@ -24,6 +24,8 @@ export type CharacterAnimations = {
 export enum KeyboardKey {
   M = 'M',
   P = 'P',
+  ENTER = 'ENTER',
+  ESC = 'ESC',
 }
 
 export type HotKey = {
