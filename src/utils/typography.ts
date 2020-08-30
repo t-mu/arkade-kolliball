@@ -1,10 +1,9 @@
-const fontColor = "#ffffff";
-const defaultRemFontSize = '2rem';
+const defaultFontColor = "#fff";
 
-export const menuFontSize = '4rem';
-export const defaultPxFontSize = 32;
+export const menuFontSize = 48;
+export const defaultFontSize = 32;
 export const textBaseConfig: Phaser.Types.GameObjects.Text.TextStyle = {
-  color: fontColor,
+  color: defaultFontColor,
   fontFamily: '"Press Start 2P"',
-  fontSize: defaultRemFontSize
+  fontSize: `${defaultFontSize}px`
 };

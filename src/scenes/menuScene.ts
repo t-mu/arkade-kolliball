@@ -1,48 +1,64 @@
-import { ARENA_CENTER_X } from "../constants";
+import { ARENA_CENTER_X, ARENA_CENTER_Y } from "../constants";
 import { SceneName } from "../types";
-import { defaultPxFontSize, menuFontSize, textBaseConfig } from "../utils/typography";
-
-const menuItemSpacing = 3 * defaultPxFontSize;
+import { defaultFontSize, menuFontSize, textBaseConfig } from "../utils/typography";
 
 type MenuItem = {
   text: string;
-  scene: string;
+  goToScene: string;
 }
 
 const menuItems: MenuItem[] = [
   {
-    text: 'start',
-    scene: SceneName.GAME,
-  }, {
+    text: 'play',
+    goToScene: SceneName.GAME,
+  },
+  {
     text: 'help',
-    scene: SceneName.INFO
-  }
+    goToScene: SceneName.INFO,
+  },
 ];
 
+const menuItemPadding = 20;
+const menuItemSpacing = defaultFontSize + 3 * menuItemPadding; // 3 x paddigs = top/bottom self + 1 top of upper sibling
+
 export default class MenuScene extends Phaser.Scene {
+  activeMenuItem
+
   constructor() {
     super({ key: SceneName.MENU });
   }
 
   create = (): void => {
-    this.cameras.main.setBackgroundColor(0x000000);
-    menuItems.forEach(({ text, scene }, i) => {
-      const item = this.createMenuItem(text, () => {
-        this.scene.start(scene);
-      });
-      item.setPosition(ARENA_CENTER_X, i * menuItemSpacing);
+    this.cameras.main.setBackgroundColor("#000");
+
+    // menu container
+    const menuContainer = new Phaser.GameObjects.Container(this, ARENA_CENTER_X, ARENA_CENTER_Y);
+    this.add.existing(menuContainer);
+
+    // menu items
+    const menuItemCreator = new Phaser.GameObjects.GameObjectCreator(this);
+    menuItems.forEach(({ text, goToScene }, i: number) => {
+      const firstItemVerticalOffset = -(menuItems.length * 90) / 2;
+      const menuItem = menuItemCreator.text({}, true)
+        .setText(text)
+        .setStyle({ ...textBaseConfig, fontSize: `${menuFontSize}px` })
+        .setInteractive()
+        .setOrigin(0.5, 0)
+        .setPadding(menuItemPadding, menuItemPadding, menuItemPadding, menuItemPadding)
+        .setPosition(0, firstItemVerticalOffset + i * menuItemSpacing)
+        .on('pointerdown', () => {
+          this.scene.start(goToScene);
+        })
+        .on('pointerover', () => {
+          menuItem.setBackgroundColor('#666');
+        })
+        .on('pointerout', () => {
+          menuItem.setBackgroundColor('transparent');
+        });
+
+      menuContainer.add(menuItem);
     });
   }
 
-  createMenuItem = (text: string, action: () => void): Phaser.GameObjects.Text => {
-    const menuItem = new Phaser.GameObjects.Text(this, ARENA_CENTER_X, 0, text, { ...textBaseConfig, fontSize: menuFontSize })
-      .setInteractive()
-      .on('pointerdown', () => action())
-      .setOrigin(0.5, 0)
-      .setPadding(10, 10, 10, 10);
 
-    this.add.existing(menuItem);
-
-    return menuItem;
-  }
 }
