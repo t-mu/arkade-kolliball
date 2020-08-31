@@ -1,7 +1,7 @@
 import { ARENA_CENTER_X, ARENA_CENTER_Y } from "../constants";
 import { HotKey, KeyboardKey, SceneName } from "../types";
 import { textBaseConfig } from "../utils/typography";
-import { bindHotKeyToScene } from "../utils/utils";
+import { bindHotKeyToScene } from "../utils/keyboardUtils";
 
 export default class PauseScene extends Phaser.Scene {
   constructor() {

@@ -4,7 +4,7 @@ import PlayerCharacter from '../objects/playerCharacter';
 import Net from '../objects/net';
 import CpuCharacter from '../objects/cpuCharacter';
 import { Court, HotKey, KeyboardKey, SceneName, TeamMember } from '../types';
-import { bindHotKeyToScene } from '../utils/utils';
+import { bindHotKeyToScene } from '../utils/keyboardUtils';
 import { ARENA_CENTER_X, ARENA_CENTER_Y, ARENA_HEIGHT, ARENA_WIDTH } from '../constants';
 import { Team } from '../common/team';
 

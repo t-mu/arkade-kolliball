@@ -1,7 +1,7 @@
 import { ARENA_CENTER_X, ARENA_CENTER_Y } from "../constants";
 import { KeyboardKey, SceneName } from "../types";
 import { menuFontSize, textBaseConfig } from "../utils/typography";
-import { bindHotKeyToScene } from "../utils/utils";
+import { bindHotKeyToScene } from "../utils/keyboardUtils";
 
 type MenuItem = {
   text: string;
