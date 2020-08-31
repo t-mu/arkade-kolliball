@@ -9,7 +9,6 @@ export default class PlayerCharacter extends CharacterBase {
   constructor(scene: GameScene, characterName: string, court: Court) {
     super(scene, characterName, court);
 
-    this.controls = this.scene.input.keyboard.createCursorKeys();
     this.body.setCircle(50);
 
     if (!this.scene.game.device.os.desktop) {
@@ -25,7 +24,7 @@ export default class PlayerCharacter extends CharacterBase {
   }
 
   private initKeyboardListeners = (): void => {
-    const { left, right, up, space } = this.controls;
+    const { left, right, up, space } = this.scene.input.keyboard.createCursorKeys();
 
     left?.on('down', () => {
       this.moveLeft();
